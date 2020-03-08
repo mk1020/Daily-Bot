@@ -19,7 +19,9 @@
     "jsx": "preserve",
     "rootDir": "./src",
     "baseUrl": "./",
-    "allowSyntheticDefaultImports": true
+    "paths": {
+      "app/*": ["src/*"]
+    },
   },
   "exclude": [
     "node_modules"
