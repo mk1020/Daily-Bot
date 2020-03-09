@@ -2,21 +2,20 @@ import React, { useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { createPost } from './graphql/mutations';
 import { getPost } from './graphql/queries';
-import SignIn from './components/SignIn/SignIn';
-import SignUp from './components/SignUp/SignUp';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 import { Route } from 'react-router-dom';
-import './App.module.css';
-import {signInUser, signUpUser} from './api/aws-cognito';
+import './App.css';
+import {
+	CognitoUserPool,
+	CognitoUserAttribute,
+	CognitoUser,
+} from 'amazon-cognito-identity-js';
 
-/* signUpUser("mmmffjs7438g@gmail.com", 'Mike', "Mm123456").then((success)=> {
-	console.log("seccess registration", success);
-	
-})
- */
-signInUser("mmmffjs7438g@gmail.com", "Mm123456").then((success)=>{
-	console.log("seccess login", success);
-})
-
+const poolData = {
+	UserPoolId: 'eu-central-1_7VyHQApew',
+	ClientId: '98bao7og9b858tmq9d22t2550'
+}
 const App = () => {
 	const [title, setTitle] = useState('');
 
@@ -35,7 +34,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<Route exact path="/" render={() => <SignIn />} />
-			<Route exact path="/signup" render={() => <SignUp />} />
+			<Route path="/signup" render={() => <SignUp />} />
 		</div>
 	);
 };

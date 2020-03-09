@@ -8,14 +8,13 @@ import { Route } from 'react-router-dom';
 import './App.module.css';
 import {signInUser, signUpUser} from './api/aws-cognito';
 
-/* signUpUser("mmmffjs7438g@gmail.com", 'Mike', "Mm123456").then((success)=> {
+signUpUser("mmmffjs7438g@gmail.com", 'Mike', "Mm123456").then((success)=> {
 	console.log("seccess registration", success);
-	
+	signInUser("mmmffjs7438g@gmail.com", "Mm123456").then((success)=>{
+		console.log("seccess login", success);
+	})
 })
- */
-signInUser("mmmffjs7438g@gmail.com", "Mm123456").then((success)=>{
-	console.log("seccess login", success);
-})
+
 
 const App = () => {
 	const [title, setTitle] = useState('');
