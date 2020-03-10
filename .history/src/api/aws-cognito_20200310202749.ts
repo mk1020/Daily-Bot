@@ -99,25 +99,25 @@ export const forgotPassword = (email: string) => {
 
 		cognitoUser.forgotPassword({
 			onSuccess: result => {
-				resolve('success');
+				resolve("success");
 			},
 			onFailure: err => {
 				reject(err);
 			},
-			inputVerificationCode() {
-				const verificationCode = prompt('Please input verification code ', '');
-				const newPassword = prompt('Enter new password ', '');
-				cognitoUser.confirmPassword(verificationCode, newPassword, this);
-			},
+			inputVerificationCode() { 
+            const verificationCode = prompt('Please input verification code ', '');
+            const newPassword = prompt('Enter new password ', '');
+			cognitoUser.confirmPassword(verificationCode, newPassword, this);
+        }
 		});
 	});
 	return forgotPasswordPromise;
 };
 
-export function signOutUser() {
-	const signOutPromise = new Promise((resolve, reject) => {
-		const cognitoUser = userPool.getCurrentUser();
-		cognitoUser.signOut();
-	});
-	return signOutPromise;
-}
+export function signOutUser(){
+	const p = new Promise((res, rej)=>{
+	 const cognitoUser = userPool.getCurrentUser()
+	 cognitoUser.signOut()
+	})
+	return p
+   };

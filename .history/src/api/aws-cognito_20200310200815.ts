@@ -99,25 +99,20 @@ export const forgotPassword = (email: string) => {
 
 		cognitoUser.forgotPassword({
 			onSuccess: result => {
-				resolve('success');
+				console.log('forgot result', result);
+				debugger;
+				resolve({ cognitoUser: cognitoUser });
 			},
-			onFailure: err => {
+			onFailure: err => {debugger
 				reject(err);
 			},
-			inputVerificationCode() {
-				const verificationCode = prompt('Please input verification code ', '');
-				const newPassword = prompt('Enter new password ', '');
-				cognitoUser.confirmPassword(verificationCode, newPassword, this);
-			},
+			inputVerificationCode() { // this is optional, and likely won't be implemented as in AWS's example (i.e, prompt to get info)
+            const verificationCode = prompt('Please input verification code ', '');
+            const newPassword = prompt('Enter new password ', '');
+			cognitoUser.confirmPassword(verificationCode, newPassword, this);
+			debugger
+        }
 		});
 	});
 	return forgotPasswordPromise;
 };
-
-export function signOutUser() {
-	const signOutPromise = new Promise((resolve, reject) => {
-		const cognitoUser = userPool.getCurrentUser();
-		cognitoUser.signOut();
-	});
-	return signOutPromise;
-}

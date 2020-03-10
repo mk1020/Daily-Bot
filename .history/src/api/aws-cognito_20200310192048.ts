@@ -90,34 +90,24 @@ export const signInUser = (email: string, password: string) => {
 };
 
 export const forgotPassword = (email: string) => {
-	const forgotPasswordPromise = new Promise((resolve, reject) => {
+ const  forgotPasswordPromise = new Promise((resolve, reject) => {
 		const userData: userData = {
 			Username: email,
 			Pool: userPool,
 		};
 		const cognitoUser = new CognitoUser(userData);
-
+debugger
 		cognitoUser.forgotPassword({
 			onSuccess: result => {
-				resolve('success');
+				console.log("forgot result",result)
+				/* debugger
+				resolve({ cognitoUser: cognitoUser,  }); */
 			},
-			onFailure: err => {
-				reject(err);
-			},
-			inputVerificationCode() {
-				const verificationCode = prompt('Please input verification code ', '');
-				const newPassword = prompt('Enter new password ', '');
-				cognitoUser.confirmPassword(verificationCode, newPassword, this);
-			},
+			onFailure: (err)=> {reject(err)},
+			inputVerificationCode: (data)=> {
+				/* resolve({cognitoUser: cognitoUser, thirdArg: this}) */
+			}
 		});
 	});
 	return forgotPasswordPromise;
 };
-
-export function signOutUser() {
-	const signOutPromise = new Promise((resolve, reject) => {
-		const cognitoUser = userPool.getCurrentUser();
-		cognitoUser.signOut();
-	});
-	return signOutPromise;
-}

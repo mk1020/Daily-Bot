@@ -6,28 +6,21 @@ import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
 import { Route } from 'react-router-dom';
 import './App.module.css';
-import { signInUser, signUpUser, forgotPassword } from './api/aws-cognito';
+import {signInUser, signUpUser, forgotPassword} from './api/aws-cognito';
 
-/*  signUpUser("covboi555@mail.ru", 'Mike', "Mm123456").then((success)=> {
+/* signUpUser("mmmffjs7438g@gmail.com", 'Mike', "Mm123456").then((success)=> {
 	console.log("seccess registration", success);
 	
-}) */
-
-/* signInUser("covboi555@mail.ru", "123456789s0lk").then((success)=>{
-	console.log("seccess login", success);
 })
  */
+/* signInUser("mmmffjs7438g@gmail.com", "Mm1234456").then((success)=>{
+	console.log("seccess login", success);
+}) */
 
-/* forgotPassword('covboi555@mail.ru').then(
-	success => {
-		debugger;
-		console.log('forgor succes', success);
-	},
-	err => {
-		console.log('err', err);
-		debugger;
-	}
-); */
+forgotPassword("mmmffjs7438g@gmail.com").then((success)=>{
+	console.log("forgor succes", success);
+}, (err)=>console.log("err",err))
+
 const App = () => {
 	const [title, setTitle] = useState('');
 

@@ -1,4 +1,4 @@
-import { resolve, promises } from 'dns';
+import { resolve } from 'dns';
 import {
 	CognitoUserPool,
 	CognitoUserAttribute,
@@ -89,7 +89,7 @@ export const signInUser = (email: string, password: string) => {
 	return signInPromise;
 };
 
-export const forgotPassword = (email: string) => {
+export const forgotPassword = email => {
 	const forgotPasswordPromise = new Promise((resolve, reject) => {
 		const userData: userData = {
 			Username: email,
@@ -99,25 +99,15 @@ export const forgotPassword = (email: string) => {
 
 		cognitoUser.forgotPassword({
 			onSuccess: result => {
-				resolve('success');
+				console.log("forgot result",result)
+				debugger
+				resolve({ cognitoUser: cognitoUser, thirdArg: this });
 			},
-			onFailure: err => {
-				reject(err);
-			},
-			inputVerificationCode() {
-				const verificationCode = prompt('Please input verification code ', '');
-				const newPassword = prompt('Enter new password ', '');
-				cognitoUser.confirmPassword(verificationCode, newPassword, this);
-			},
+			onFailure: (err)=> reject(err),
+			inputVerificationCode: (data)=> {
+				resolve({cognitoUser: cognitoUser, thirdArg: this})
+			}
 		});
 	});
 	return forgotPasswordPromise;
 };
-
-export function signOutUser() {
-	const signOutPromise = new Promise((resolve, reject) => {
-		const cognitoUser = userPool.getCurrentUser();
-		cognitoUser.signOut();
-	});
-	return signOutPromise;
-}

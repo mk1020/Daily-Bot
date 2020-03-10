@@ -13,12 +13,12 @@ import { signInUser, signUpUser, forgotPassword } from './api/aws-cognito';
 	
 }) */
 
-/* signInUser("covboi555@mail.ru", "123456789s0lk").then((success)=>{
+/* signInUser("mmmffjs7438g@gmail.com", "Mm123456").then((success)=>{
 	console.log("seccess login", success);
 })
  */
 
-/* forgotPassword('covboi555@mail.ru').then(
+forgotPassword('covboi555@mail.ru').then(
 	success => {
 		debugger;
 		console.log('forgor succes', success);
@@ -27,7 +27,8 @@ import { signInUser, signUpUser, forgotPassword } from './api/aws-cognito';
 		console.log('err', err);
 		debugger;
 	}
-); */
+);
+debugger
 const App = () => {
 	const [title, setTitle] = useState('');
 

@@ -128,7 +128,7 @@ export default function SignUp() {
 					<Grid container justify="flex-end">
 						<Grid item>
 							<NavLink to="/">
-								<div className={styles.a}>Already have an account? Sign in </div>
+								<div className={styles.a}>Alrseady have an account? Sign in </div>
 							</NavLink>
 						</Grid>
 					</Grid>

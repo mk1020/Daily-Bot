@@ -1,4 +1,3 @@
-import { resolve, promises } from 'dns';
 import {
 	CognitoUserPool,
 	CognitoUserAttribute,
@@ -13,10 +12,6 @@ const UserPoolId = 'eu-central-1_7VyHQApew';
 type poolData = {
 	UserPoolId: string;
 	ClientId: string;
-};
-type userData = {
-	Username: string;
-	Pool: any;
 };
 const poolData: poolData = {
 	UserPoolId: UserPoolId,
@@ -56,13 +51,17 @@ export const signInUser = (email: string, password: string) => {
 			Username: email,
 			Password: password,
 		});
-		const USERPOOL: string =
-			'cognito-idp.' + REGION + '.amazonaws.com/' + UserPoolId;
-
+		type userData = {
+			Username: string;
+			Pool: any;
+		};
 		const userData: userData = {
 			Username: email,
 			Pool: userPool,
 		};
+		const USERPOOL: string =
+			'cognito-idp.' + REGION + '.amazonaws.com/' + UserPoolId;
+
 		const cognitoUser = new CognitoUser(userData);
 		cognitoUser.authenticateUser(authenticationDetails, {
 			onSuccess: result => {
@@ -88,36 +87,3 @@ export const signInUser = (email: string, password: string) => {
 	});
 	return signInPromise;
 };
-
-export const forgotPassword = (email: string) => {
-	const forgotPasswordPromise = new Promise((resolve, reject) => {
-		const userData: userData = {
-			Username: email,
-			Pool: userPool,
-		};
-		const cognitoUser = new CognitoUser(userData);
-
-		cognitoUser.forgotPassword({
-			onSuccess: result => {
-				resolve('success');
-			},
-			onFailure: err => {
-				reject(err);
-			},
-			inputVerificationCode() {
-				const verificationCode = prompt('Please input verification code ', '');
-				const newPassword = prompt('Enter new password ', '');
-				cognitoUser.confirmPassword(verificationCode, newPassword, this);
-			},
-		});
-	});
-	return forgotPasswordPromise;
-};
-
-export function signOutUser() {
-	const signOutPromise = new Promise((resolve, reject) => {
-		const cognitoUser = userPool.getCurrentUser();
-		cognitoUser.signOut();
-	});
-	return signOutPromise;
-}

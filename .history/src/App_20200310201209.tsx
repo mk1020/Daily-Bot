@@ -13,10 +13,10 @@ import { signInUser, signUpUser, forgotPassword } from './api/aws-cognito';
 	
 }) */
 
-/* signInUser("covboi555@mail.ru", "123456789s0lk").then((success)=>{
+signInUser("covboi555@mail.ru", "1234567890lk").then((success)=>{
 	console.log("seccess login", success);
 })
- */
+
 
 /* forgotPassword('covboi555@mail.ru').then(
 	success => {
@@ -28,6 +28,7 @@ import { signInUser, signUpUser, forgotPassword } from './api/aws-cognito';
 		debugger;
 	}
 ); */
+debugger;
 const App = () => {
 	const [title, setTitle] = useState('');
 

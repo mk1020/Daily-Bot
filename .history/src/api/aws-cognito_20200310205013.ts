@@ -115,7 +115,7 @@ export const forgotPassword = (email: string) => {
 };
 
 export function signOutUser() {
-	const signOutPromise = new Promise((resolve, reject) => {
+	const signOutPromise = new Promise((res, rej) => {
 		const cognitoUser = userPool.getCurrentUser();
 		cognitoUser.signOut();
 	});
