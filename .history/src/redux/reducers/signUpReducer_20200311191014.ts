@@ -1,24 +1,29 @@
 import * as types from '../actions/actions';
 
-interface SignIn {
+interface SignUp {
+	firstName: string;
+	lastName: string;
 	email: string;
 	pass: string;
-	login: boolean;
+	registration: boolean;
 }
-const initialState: SignIn = {
+const initialState: SignUp = {
+	firstName: null,
+	lastName: null,
 	email: null,
 	pass: null,
-	login: null
+	registration: null
 };
-
 export const signInReducer = (
 	state = initialState,
-	action: types.ClickSignIn
-): SignIn => {
+	action: types.ClickSignUp
+): SignUp => {
 	switch (action.type) {
-		case types.CLICK_SIGN_IN: {
+		case types.CLICK_SIGN_UP: {
 			return {
 				...state,
+				firstName: action.firstName,
+				lastName: action.lastName,
 				email: action.email,
 				pass: action.pass,
 			};

@@ -10,7 +10,16 @@ import { connect } from 'react-redux';
 import { signInUser, signUpUser, forgotPassword } from './api/aws-cognito';
  
 
-  
+/* forgotPassword('covboi555@mail.ru').then(
+	success => {
+		debugger;
+		console.log('forgor succes', success);
+	},
+	err => {
+		console.log('err', err);
+		debugger;
+	}
+); */
 const App = () => {
 	const [title, setTitle] = useState('');
 

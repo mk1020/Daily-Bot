@@ -1,4 +1,3 @@
-import { resolve } from 'dns';
 import {
 	CognitoUserPool,
 	CognitoUserAttribute,
@@ -40,7 +39,7 @@ export const signUpUser = (email: string, name: string, password: string) => {
 		attributeList.push(new CognitoUserAttribute(Name));
 
 		userPool.signUp(Email.Value, password, attributeList, null, (err, result) => {
-			if (err) reject(err)
+			if (err) console.log(err);
 			else {
 				resolve(Email.Value);
 				console.log(result);
@@ -76,8 +75,8 @@ export const signInUser = (email: string, password: string) => {
 				});
 				(AWS.config.credentials as AWS.CognitoIdentityCredentials).refresh(
 					error => {
-						if (error) reject(error);
-						else resolve("Success login");
+						if (error) console.log(error);
+						else console.log('Successfully logged!');
 					}
 				);
 			},

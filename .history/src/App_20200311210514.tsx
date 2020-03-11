@@ -7,10 +7,23 @@ import SignUp from './components/SignUp/SignUp';
 import { Route } from 'react-router-dom';
 import './App.module.css';
 import { connect } from 'react-redux';
-import { signInUser, signUpUser, forgotPassword } from './api/aws-cognito';
+
+
+ signInUser("covboi555@mail.ru", "123456789s0lk").then((success)=>{
+	console.log("seccess login", success);
+})
  
 
-  
+/* forgotPassword('covboi555@mail.ru').then(
+	success => {
+		debugger;
+		console.log('forgor succes', success);
+	},
+	err => {
+		console.log('err', err);
+		debugger;
+	}
+); */
 const App = () => {
 	const [title, setTitle] = useState('');
 

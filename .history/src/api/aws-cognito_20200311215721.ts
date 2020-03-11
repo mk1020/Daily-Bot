@@ -40,7 +40,7 @@ export const signUpUser = (email: string, name: string, password: string) => {
 		attributeList.push(new CognitoUserAttribute(Name));
 
 		userPool.signUp(Email.Value, password, attributeList, null, (err, result) => {
-			if (err) reject(err)
+			if (err) reject(err);
 			else {
 				resolve(Email.Value);
 				console.log(result);
@@ -77,12 +77,12 @@ export const signInUser = (email: string, password: string) => {
 				(AWS.config.credentials as AWS.CognitoIdentityCredentials).refresh(
 					error => {
 						if (error) reject(error);
-						else resolve("Success login");
+						else resolve('Success login');
 					}
 				);
 			},
 			onFailure: err => {
-				alert(err.message || JSON.stringify(err));
+				reject(err);
 			},
 		});
 	});

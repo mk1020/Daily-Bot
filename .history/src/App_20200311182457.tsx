@@ -8,9 +8,28 @@ import { Route } from 'react-router-dom';
 import './App.module.css';
 import { connect } from 'react-redux';
 import { signInUser, signUpUser, forgotPassword } from './api/aws-cognito';
- 
+import { clickSignUp, clickSignIn } from './redux/actions/actions';
 
-  
+/*  signUpUser("covboi555@mail.ru", 'Mike', "Mm123456").then((success)=> {
+	console.log("seccess registration", success);
+	
+}) */
+
+/* signInUser("covboi555@mail.ru", "123456789s0lk").then((success)=>{
+	console.log("seccess login", success);
+})
+ */
+
+/* forgotPassword('covboi555@mail.ru').then(
+	success => {
+		debugger;
+		console.log('forgor succes', success);
+	},
+	err => {
+		console.log('err', err);
+		debugger;
+	}
+); */
 const App = () => {
 	const [title, setTitle] = useState('');
 
@@ -29,9 +48,11 @@ const App = () => {
 	return (
 		<div className="App">
 			<Route exact path="/" render={() => <SignIn />} />
-			<Route path="/signup" render={() => <SignUp />} />
+			<Route exact path="/signup" render={() => <SignUp />} />
 		</div>
 	);
 };
 
-export default connect(state => ({}))(App);
+export default connect(state=> ({
+	
+}))(App);

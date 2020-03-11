@@ -6,17 +6,16 @@ import * as serviceWorker from './serviceWorker';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 import store from './redux/store';
 
 Amplify.configure(awsconfig);
 
 ReactDOM.render(
-	<Provider store={store}>
-		<BrowserRouter>
-			<App />
-		</BrowserRouter>
-	</Provider>,
+	<Provider store={store}></Provider>
+	<BrowserRouter>
+		<App />
+	</BrowserRouter>,
 	document.getElementById('root')
 );
 

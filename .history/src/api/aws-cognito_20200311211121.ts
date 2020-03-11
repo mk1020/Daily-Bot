@@ -1,4 +1,3 @@
-import { resolve } from 'dns';
 import {
 	CognitoUserPool,
 	CognitoUserAttribute,
@@ -76,8 +75,8 @@ export const signInUser = (email: string, password: string) => {
 				});
 				(AWS.config.credentials as AWS.CognitoIdentityCredentials).refresh(
 					error => {
-						if (error) reject(error);
-						else resolve("Success login");
+						if (error) console.log(error);
+						else console.log('Successfully logged!');
 					}
 				);
 			},

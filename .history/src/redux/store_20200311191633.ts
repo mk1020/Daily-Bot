@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { signInReducer } from './reducers/signInReducer';
 import { signUpReducer } from './reducers/signUpReducer';
 
-const reducers = combineReducers({ signInReducer, signUpReducer });
+const reducers = combineReducers({ signInReducer,  });
 
 const store = createStore(
 	reducers,

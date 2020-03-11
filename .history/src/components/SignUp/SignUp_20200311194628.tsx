@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink } from 'react-router-dom';
 import styles from './SignUp.module.css';
+import { connect } from 'react-redux';
+import { clickSignUp, clickSignIn } from '../../redux/actions/actions';
 
 function Copyright() {
 	return (
@@ -48,9 +50,18 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function SignUp() {
+const SignUp = (props: any) => {
 	const classes = useStyles();
-
+	const [firstName, changeFirstName] = useState('');
+	const [lastName, changeLastName] = useState('');
+	const [email, changeEmail] = useState('');
+	const [pass, changePass] = useState('');
+	const [onClickSignUp, changeOnClickSignUp] = useState(false);
+	useEffect(() => {
+		debugger
+		if (onClickSignUp) props.clickSignUp(firstName, lastName, email, pass)
+		changeOnClickSignUp(false)
+	}, [onClickSignUp]);
 	return (
 		<Container component="main" maxWidth="xs">
 			<CssBaseline />
@@ -73,6 +84,8 @@ export default function SignUp() {
 								id="firstName"
 								label="First Name"
 								autoFocus
+								onChange={e => changeFirstName(e.target.value)}
+								value={firstName}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6}>
@@ -84,6 +97,8 @@ export default function SignUp() {
 								label="Last Name"
 								name="lastName"
 								autoComplete="lname"
+								onChange={(e: any) => changeLastName(e.target.value)}
+								value={lastName}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -95,6 +110,8 @@ export default function SignUp() {
 								label="Email Address"
 								name="email"
 								autoComplete="email"
+								onChange={e => changeEmail(e.target.value)}
+								value={email}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -107,6 +124,8 @@ export default function SignUp() {
 								type="password"
 								id="password"
 								autoComplete="current-password"
+								onChange={e => changePass(e.target.value)}
+								value={pass}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -116,15 +135,18 @@ export default function SignUp() {
 							/>
 						</Grid>
 					</Grid>
+
 					<Button
 						type="submit"
 						fullWidth
 						variant="contained"
 						color="primary"
 						className={classes.submit}
+						onClick={(e) =>{e.preventDefault(); changeOnClickSignUp(true)}}
 					>
 						Sign Up
 					</Button>
+
 					<Grid container justify="flex-end">
 						<Grid item>
 							<NavLink to="/">
@@ -139,4 +161,9 @@ export default function SignUp() {
 			</Box>
 		</Container>
 	);
-}
+};
+
+export default connect(null, {
+	clickSignUp,
+	clickSignIn,
+})(SignUp);

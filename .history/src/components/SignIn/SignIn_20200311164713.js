@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink } from 'react-router-dom';
-import styles from './SignIn.module.css'
+import styles from './SignIn.module.css';
 function Copyright() {
 	return (
 		<Typography variant="body2" color="textSecondary" align="center">
@@ -49,6 +49,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn() {
 	const classes = useStyles();
+	const [email, changeEmail] = useState('');
+	const [pass, changePass] = useState('');
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -71,6 +73,8 @@ export default function SignIn() {
 						name="email"
 						autoComplete="email"
 						autoFocus
+						onChange={(e) => changeEmail(e.targer.value)}
+						value={email}
 					/>
 					<TextField
 						variant="outlined"
@@ -82,6 +86,8 @@ export default function SignIn() {
 						type="password"
 						id="password"
 						autoComplete="current-password"
+						onChange={(e) => changePass(e.targer.value)}
+						value={pass}
 					/>
 					<FormControlLabel
 						control={<Checkbox value="remember" color="primary" />}

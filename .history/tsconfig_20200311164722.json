@@ -27,6 +27,6 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx", "src/components/SignUp/SignUp.js", "src/components/SignIn/SignIn.tsx"
+    "**/*.tsx", "src/components/SignUp/SignUp.js", "src/components/SignIn/SignIn.js"
   ]
 }
