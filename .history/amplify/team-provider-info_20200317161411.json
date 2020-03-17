@@ -1,0 +1,30 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-graphql-ts-amplify-dev-151816-authRole",
+            "UnauthRoleArn": "arn:aws:iam::856202447501:role/amplify-graphql-ts-amplify-dev-151816-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::856202447501:role/amplify-graphql-ts-amplify-dev-151816-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "amplify-graphql-ts-amplify-dev-151816-deployment",
+            "UnauthRoleName": "amplify-graphql-ts-amplify-dev-151816-unauthRole",
+            "StackName": "amplify-graphql-ts-amplify-dev-151816",
+            "StackId": "arn:aws:cloudformation:eu-central-1:856202447501:stack/amplify-graphql-ts-amplify-dev-151816/c4d5b140-6851-11ea-b7c3-02205d104246",
+            "AmplifyAppId": "d3zhmlazkd50e"
+        },
+        "categories": {
+            "auth": {
+                "graphqltsamplifycf8ed824": {}
+            },
+            "function": {
+                "graphqltsamplifycf8ed824PostConfirmation": {
+                    "GROUP": "admins"
+                },
+                "graphqltsamplifycf8ed824CustomMessage": {
+                    "REDIRECTURL": "http://localhost:3000/",
+                    "EMAILSUBJECT": "Confirm your registration",
+                    "EMAILMESSAGE": "Please click the link below to verify your email address. {####} "
+                }
+            }
+        }
+    }
+}

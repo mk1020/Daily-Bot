@@ -1,0 +1,14 @@
+{
+    "trigger": true,
+    "modules": [
+        "verification-link"
+    ],
+    "parentResource": "graphqltsamplifycf8ed824",
+    "functionName": "graphqltsamplifycf8ed824CustomMessage",
+    "parentStack": "auth",
+    "triggerEnvs": "[{\"key\":\"RESOURCENAME\",\"value\":\"resourceName\"}]",
+    "triggerTemplate": "CustomMessage.json.ejs",
+    "roleName": "graphqltsamplifycf8ed824CustomMessage",
+    "skipEdit": true,
+    "resourceName": "graphqltsamplifycf8ed824CustomMessage"
+}

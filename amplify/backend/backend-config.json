@@ -1,41 +1,46 @@
 {
 	"auth": {
-		"userPoolGroups": {
-			"service": "Cognito-UserPool-Groups",
+		"graphqltsamplifycf8ed824": {
+			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [
 				{
-					"category": "auth",
-					"resourceName": "reactAmplifyCognitol",
+					"category": "function",
+					"resourceName": "graphqltsamplifycf8ed824PostConfirmation",
+					"triggerProvider": "Cognito",
 					"attributes": [
-						"UserPoolId",
-						"AppClientIDWeb",
-						"AppClientID",
-						"IdentityPoolId"
+						"Arn",
+						"Name"
 					]
 				}
-			]
-		},
-		"reactAmplifyCognitol": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": []
+			],
+			"customAuth": false
 		}
 	},
 	"function": {
-		"AdminQueries0020c384": {
+		"AdminQueries3177e951": {
 			"service": "Lambda",
 			"providerPlugin": "awscloudformation",
 			"build": true,
 			"dependsOn": [
 				{
 					"category": "auth",
-					"resourceName": "reactAmplifyCognitol",
+					"resourceName": "graphqltsamplifycf8ed824",
 					"attributes": [
 						"UserPoolId"
 					]
 				}
 			]
+		},
+		"graphqltsamplifycf8ed824PostConfirmation": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
+		},
+		"graphqltsamplifycf8ed824CustomMessage": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
 		}
 	},
 	"api": {
@@ -45,35 +50,20 @@
 			"dependsOn": [
 				{
 					"category": "auth",
-					"resourceName": "reactAmplifyCognitol",
+					"resourceName": "graphqltsamplifycf8ed824",
 					"attributes": [
 						"UserPoolId"
 					]
 				},
 				{
 					"category": "function",
-					"resourceName": "AdminQueries0020c384",
+					"resourceName": "AdminQueries3177e951",
 					"attributes": [
 						"Arn",
 						"Name"
 					]
 				}
 			]
-		},
-		"DailyApp": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"authConfig": {
-					"additionalAuthenticationProviders": [],
-					"defaultAuthentication": {
-						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
-						"userPoolConfig": {
-							"userPoolId": "authreactAmplifyCognitol"
-						}
-					}
-				}
-			}
 		}
 	}
 }
