@@ -23,13 +23,15 @@
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
+        "name",
         "email"
     ],
     "userpoolClientReadAttributes": [
-        "email"
+        "email",
+        "name"
     ],
     "userpoolClientLambdaRole": "graphqcf8ed824_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "resourceName": "graphqltsamplifycf8ed824",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
@@ -48,7 +50,10 @@
     "usernameAttributes": [
         "email"
     ],
-    "userPoolGroupList": [],
+    "userPoolGroupList": [
+        "admins",
+        "users"
+    ],
     "dependsOn": [
         {
             "category": "function",

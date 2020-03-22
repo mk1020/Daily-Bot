@@ -1,0 +1,13 @@
+.a {
+  color:#2F56AF;
+}
+
+.NavLink{
+  all: inherit;
+}
+.success_reg{
+  margin: 0 auto;
+  background-color: green;
+  padding: 10px;
+  border: 1px solid black;
+}

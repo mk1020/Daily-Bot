@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "dailyApi",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authgraphqltsamplifycf8ed824",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

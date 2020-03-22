@@ -1,5 +1,5 @@
 projects:
-  DailyApp:
+  dailyApi:
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.ts

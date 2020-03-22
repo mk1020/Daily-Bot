@@ -7,6 +7,7 @@ export type CreateTaskInput = {
   title: string,
   description?: string | null,
   status?: string | null,
+  _version?: number | null,
 };
 
 export type ModelTaskConditionInput = {
@@ -63,15 +64,18 @@ export type UpdateTaskInput = {
   title?: string | null,
   description?: string | null,
   status?: string | null,
+  _version?: number | null,
 };
 
 export type DeleteTaskInput = {
   id?: string | null,
+  _version?: number | null,
 };
 
 export type CreatePrivateNoteInput = {
   id?: string | null,
   content: string,
+  _version?: number | null,
 };
 
 export type ModelPrivateNoteConditionInput = {
@@ -84,10 +88,12 @@ export type ModelPrivateNoteConditionInput = {
 export type UpdatePrivateNoteInput = {
   id: string,
   content?: string | null,
+  _version?: number | null,
 };
 
 export type DeletePrivateNoteInput = {
   id?: string | null,
+  _version?: number | null,
 };
 
 export type ModelTaskFilterInput = {
@@ -136,6 +142,9 @@ export type CreateTaskMutation = {
     title: string,
     description: string | null,
     status: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -151,6 +160,9 @@ export type UpdateTaskMutation = {
     title: string,
     description: string | null,
     status: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -166,6 +178,9 @@ export type DeleteTaskMutation = {
     title: string,
     description: string | null,
     status: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -179,6 +194,9 @@ export type CreatePrivateNoteMutation = {
     __typename: "PrivateNote",
     id: string,
     content: string,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     owner: string | null,
   } | null,
 };
@@ -193,6 +211,9 @@ export type UpdatePrivateNoteMutation = {
     __typename: "PrivateNote",
     id: string,
     content: string,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     owner: string | null,
   } | null,
 };
@@ -207,7 +228,35 @@ export type DeletePrivateNoteMutation = {
     __typename: "PrivateNote",
     id: string,
     content: string,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     owner: string | null,
+  } | null,
+};
+
+export type SyncTasksQueryVariables = {
+  filter?: ModelTaskFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncTasksQuery = {
+  syncTasks:  {
+    __typename: "ModelTaskConnection",
+    items:  Array< {
+      __typename: "Task",
+      id: string,
+      title: string,
+      description: string | null,
+      status: string | null,
+      _version: number,
+      _deleted: boolean | null,
+      _lastChangedAt: number,
+    } | null > | null,
+    nextToken: string | null,
+    startedAt: number | null,
   } | null,
 };
 
@@ -222,6 +271,9 @@ export type GetTaskQuery = {
     title: string,
     description: string | null,
     status: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -240,8 +292,36 @@ export type ListTasksQuery = {
       title: string,
       description: string | null,
       status: string | null,
+      _version: number,
+      _deleted: boolean | null,
+      _lastChangedAt: number,
     } | null > | null,
     nextToken: string | null,
+    startedAt: number | null,
+  } | null,
+};
+
+export type SyncPrivateNotesQueryVariables = {
+  filter?: ModelPrivateNoteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncPrivateNotesQuery = {
+  syncPrivateNotes:  {
+    __typename: "ModelPrivateNoteConnection",
+    items:  Array< {
+      __typename: "PrivateNote",
+      id: string,
+      content: string,
+      _version: number,
+      _deleted: boolean | null,
+      _lastChangedAt: number,
+      owner: string | null,
+    } | null > | null,
+    nextToken: string | null,
+    startedAt: number | null,
   } | null,
 };
 
@@ -254,6 +334,9 @@ export type GetPrivateNoteQuery = {
     __typename: "PrivateNote",
     id: string,
     content: string,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     owner: string | null,
   } | null,
 };
@@ -271,9 +354,13 @@ export type ListPrivateNotesQuery = {
       __typename: "PrivateNote",
       id: string,
       content: string,
+      _version: number,
+      _deleted: boolean | null,
+      _lastChangedAt: number,
       owner: string | null,
     } | null > | null,
     nextToken: string | null,
+    startedAt: number | null,
   } | null,
 };
 
@@ -284,6 +371,9 @@ export type OnCreateTaskSubscription = {
     title: string,
     description: string | null,
     status: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -294,6 +384,9 @@ export type OnUpdateTaskSubscription = {
     title: string,
     description: string | null,
     status: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -304,6 +397,9 @@ export type OnDeleteTaskSubscription = {
     title: string,
     description: string | null,
     status: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -316,6 +412,9 @@ export type OnCreatePrivateNoteSubscription = {
     __typename: "PrivateNote",
     id: string,
     content: string,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     owner: string | null,
   } | null,
 };
@@ -329,6 +428,9 @@ export type OnUpdatePrivateNoteSubscription = {
     __typename: "PrivateNote",
     id: string,
     content: string,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     owner: string | null,
   } | null,
 };
@@ -342,6 +444,9 @@ export type OnDeletePrivateNoteSubscription = {
     __typename: "PrivateNote",
     id: string,
     content: string,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     owner: string | null,
   } | null,
 };
