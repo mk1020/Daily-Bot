@@ -45,7 +45,7 @@ const App = () => {
 					.getJwtToken()}`,
 			},
 		};
-		return await API.graphql(graphqlOperation(path, myInit)) ;
+		return await API.graphql(graphqlOperation(apiName, myInit)) ;
 	}
 	addToGroup()
 	const isAuthenticated = () => {

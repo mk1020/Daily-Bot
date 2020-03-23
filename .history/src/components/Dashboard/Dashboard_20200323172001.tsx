@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -72,16 +72,12 @@ const useStyles = makeStyles((theme: Theme) =>
 const Dashboard = () => {
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
-	const [Name, setName] = useState(' ');
-	const history = useHistory();
+    const history = useHistory();
 	const handleClick = () => {
 		setOpen(!open);
 	};
-	useEffect(() => {
-		Auth.currentUserInfo().then(res => {
-			setName(res.attributes.name);
-		});
-	}, []);
+	let Name;
+	 Auth.currentUserInfo().then(res=> {Name = res.attributes.name; })
 
 	return (
 		<div className={classes.root}>
@@ -91,7 +87,7 @@ const Dashboard = () => {
 					<Typography variant="h6" noWrap>
 						Daily Dashboard
 					</Typography>
-					<Avatar className={classes.orange}>{Name[0].toUpperCase()}</Avatar>
+					<Avatar className={classes.orange}>N</Avatar>
 				</Toolbar>
 			</AppBar>
 			<Drawer
@@ -131,17 +127,11 @@ const Dashboard = () => {
 						</List>
 					</Collapse>
 					<Divider />
-					<ListItem
-						button
-						onClick={async () => {
-							await Auth.signOut();
-							history.push('/signin');
-						}}
-					>
+					<ListItem button>
 						<ListItemIcon>
 							<ExitToAppRoundedIcon />
 						</ListItemIcon>
-						<ListItemText primary="Out" />
+						<ListItemText primary="Out" onClick={()=>{history.push('/signin'); Auth.signOut(); }}/>
 					</ListItem>
 				</List>
 				<Divider />

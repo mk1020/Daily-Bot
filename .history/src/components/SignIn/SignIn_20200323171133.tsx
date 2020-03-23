@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import styles from './SignIn.module.css';
+import { signInUser, forgotPassword } from '../../api/aws-cognito';
 import { Auth } from 'aws-amplify';
 import { connect } from 'react-redux';
 import img_loading from '../../img/loading.svg';

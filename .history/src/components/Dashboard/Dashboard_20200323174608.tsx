@@ -72,16 +72,16 @@ const useStyles = makeStyles((theme: Theme) =>
 const Dashboard = () => {
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
-	const [Name, setName] = useState(' ');
+	const [Name, setName] = useState('');
 	const history = useHistory();
 	const handleClick = () => {
 		setOpen(!open);
 	};
-	useEffect(() => {
+	//useEffect(() => {
 		Auth.currentUserInfo().then(res => {
 			setName(res.attributes.name);
 		});
-	}, []);
+//	}, []);
 
 	return (
 		<div className={classes.root}>

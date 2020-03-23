@@ -77,11 +77,11 @@ const Dashboard = () => {
 	const handleClick = () => {
 		setOpen(!open);
 	};
-	useEffect(() => {
+	//useEffect(() => {
 		Auth.currentUserInfo().then(res => {
 			setName(res.attributes.name);
 		});
-	}, []);
+//	}, []);
 
 	return (
 		<div className={classes.root}>

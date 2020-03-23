@@ -31,7 +31,7 @@ const App = () => {
 		debugger;
 	}; */
 	async function addToGroup() {
-		let apiName = 'addUserToGroup';
+		let apiName = '/addUserToGroup';
 		let path = '/addUserToGroup';
 		let myInit = {
 			body: {
@@ -45,7 +45,7 @@ const App = () => {
 					.getJwtToken()}`,
 			},
 		};
-		return await API.graphql(graphqlOperation(path, myInit)) ;
+		return await API.post(apiName, path, myInit);
 	}
 	addToGroup()
 	const isAuthenticated = () => {

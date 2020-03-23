@@ -8,10 +8,12 @@ import ForgotPass from './components/ForgotPass/ForgotPass';
 import { Route } from 'react-router-dom';
 import './App.module.css';
 import { connect } from 'react-redux';
+import { signInUser, signUpUser, forgotPassword } from './api/aws-cognito';
 import { PrivateRoute } from './components/PrivateRoute';
+import { Home } from './components/home/home';
+import AuthComponent from './components/Auth';
 import Dashboard from './components/Dashboard/Dashboard';
 import { useLocation, useHistory } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
 
 const App = () => {
 	const [title, setTitle] = useState('');
@@ -30,46 +32,28 @@ const App = () => {
 		console.log('all posts', allPosts);
 		debugger;
 	}; */
-	async function addToGroup() {
-		let apiName = 'addUserToGroup';
-		let path = '/addUserToGroup';
-		let myInit = {
-			body: {
-				username: 'awesomeeditor',
-				groupname: 'users',
-			},
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `${(await Auth.currentSession())
-					.getAccessToken()
-					.getJwtToken()}`,
-			},
-		};
-		return await API.graphql(graphqlOperation(path, myInit)) ;
-	}
-	addToGroup()
 	const isAuthenticated = () => {
 		const isAuthenticated: Number = document.cookie.indexOf('accessToken');
 		return isAuthenticated == -1 ? false : true;
 	};
 	if (
 		isAuthenticated() &&
-		(location.pathname == '/signin' ||
-			location.pathname == '/signup' ||
-			location.pathname == '/forgotpassword')
+		(location.pathname == '/signin' || location.pathname == '/signup')
 	)
 		history.push('/');
 	return (
 		<div className="App">
-			<Route exact path="/signin" render={() => <SignIn />} />
-			<Route exact path="/signup" render={() => <SignUp />} />
-			<PrivateRoute
-				exact
-				path="/"
-				component={Dashboard}
-				isAuthenticated={isAuthenticated()}
-			/>
-			<Route path="/forgotpassword" render={() => <ForgotPass />} />
+			<AuthComponent>
+				<Route exact path="/signin" render={() => <SignIn />} />
+				<Route exact path="/signup" render={() => <SignUp />} />
+				<PrivateRoute
+					exact
+					path="/"
+					component={Dashboard}
+					isAuthenticated={isAuthenticated()}
+				/>
+				<Route path="/forgotpassword" render={() => <ForgotPass />} />
+			</AuthComponent>
 		</div>
 	);
 };

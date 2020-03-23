@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
-import { useLocation, useHistory } from 'react-router-dom';
 type CredentialsSignIn = {
 	email: string | undefined;
 	pass: string | undefined;
@@ -35,16 +34,12 @@ const AuthComponent = ({ children }) => {
 	const [errSignOut, setErrSignOut] = useState('');
 	const [errSignUp, setErrSignUp] = useState('');
 	const [isRequest, setIsRequest] = useState(false);
-	let location = useLocation();
-	let history = useHistory();
-	
-	const checkAuth = async () => {
+
+	/* const checkAuth =  () => {
 		setIsRequest(true)
-		await Auth.currentAuthenticatedUser().then(
+		 Auth.currentAuthenticatedUser().then(
 			res => {
-				setIsAuthenticated(true);
-				if (location.pathname=="/signin") history.push('/')
-				
+				setIsAuthenticated(true);				
 			},
 			err => setIsAuthenticated(false)
 		);
@@ -52,7 +47,7 @@ const AuthComponent = ({ children }) => {
 
 	useEffect(() => {
 		checkAuth();
-	}, []);
+	}, []); */
 	const signIn = async ({ email, pass }) =>
 		new Promise(
 			async (resolve, reject) =>

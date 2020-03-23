@@ -31,12 +31,12 @@ const App = () => {
 		debugger;
 	}; */
 	async function addToGroup() {
-		let apiName = 'addUserToGroup';
+		let apiName = 'AdminQueries';
 		let path = '/addUserToGroup';
 		let myInit = {
 			body: {
 				username: 'awesomeeditor',
-				groupname: 'users',
+				groupname: 'editors',
 			},
 			headers: {
 				'Content-Type': 'application/json',
@@ -45,9 +45,8 @@ const App = () => {
 					.getJwtToken()}`,
 			},
 		};
-		return await API.graphql(graphqlOperation(path, myInit)) ;
+		return await API.post(apiName, path, myInit);
 	}
-	addToGroup()
 	const isAuthenticated = () => {
 		const isAuthenticated: Number = document.cookie.indexOf('accessToken');
 		return isAuthenticated == -1 ? false : true;
