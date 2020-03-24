@@ -91,8 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		h2NewProject:{
 			textAlign: "center",
 			  fontFamily: 'Caveat, cursive',
-			  fontWeight: 700,
-			  fontSize: 24
+			  fontWeight: 700
 		}
 	})
 );
@@ -202,7 +201,6 @@ const Dashboard = () => {
 									<AddIcon />
 								</Fab>
 							</Tooltip>
-							<input id="image-file" type="file" />
 						</div>
 					</div>
 				)}

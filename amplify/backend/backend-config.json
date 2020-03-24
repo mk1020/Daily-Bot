@@ -48,12 +48,12 @@
                 }
             ]
         },
-        "graphqltsamplifycf8ed824PostConfirmation": {
+        "graphqltsamplifycf8ed824CustomMessage": {
             "service": "Lambda",
             "providerPlugin": "awscloudformation",
             "build": true
         },
-        "graphqltsamplifycf8ed824CustomMessage": {
+        "graphqltsamplifycf8ed824PostConfirmation": {
             "service": "Lambda",
             "providerPlugin": "awscloudformation",
             "build": true

@@ -202,7 +202,6 @@ const Dashboard = () => {
 									<AddIcon />
 								</Fab>
 							</Tooltip>
-							<input id="image-file" type="file" />
 						</div>
 					</div>
 				)}

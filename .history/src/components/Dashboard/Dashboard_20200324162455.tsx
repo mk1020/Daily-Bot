@@ -16,7 +16,7 @@ import { Auth } from 'aws-amplify';
 import styles from './ForgotPass.module.css';
 import { connect } from 'react-redux';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
-import { ListSubheader, Avatar, TextField, Tooltip } from '@material-ui/core';
+import { ListSubheader, Avatar } from '@material-ui/core';
 import TouchAppSharpIcon from '@material-ui/icons/TouchAppSharp';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -24,9 +24,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ReorderRoundedIcon from '@material-ui/icons/ReorderRounded';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import { deepOrange } from '@material-ui/core/colors';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-
+import { resolve } from 'url';
+import { Resolver } from 'dns';
 const drawerWidth = 230;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -67,41 +66,13 @@ const useStyles = makeStyles((theme: Theme) =>
 			color: theme.palette.getContrastText(deepOrange[500]),
 			backgroundColor: deepOrange[500],
 		},
-		newProject: {},
-		wrapperTextField: {
-			display: 'flex',
-			flexDirection: 'column',
-			maxWidth: '300px',
-		},
-		textField2: {
-			marginTop: 8,
-			marginBottom: 8,
-		},
-		fab: {
-			margin: theme.spacing(2),
-		},
-		squareImg: {
-			display: "flex",
-			justifyContent: 'flex-end',
-			alignItems: 'flex-end',
-			width: 300,
-			height: 300,
-			border: '1px solid #bdbebd',
-		},
-		h2NewProject:{
-			textAlign: "center",
-			  fontFamily: 'Caveat, cursive',
-			  fontWeight: 700,
-			  fontSize: 24
-		}
 	})
 );
 
-const Dashboard = () => {
+const Dashboard = (): Element => {
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
 	const [Name, setName] = useState(' ');
-	const [newProject, setNewProject] = useState(false);
 	const history = useHistory();
 	const handleClick = () => {
 		setOpen(!open);
@@ -160,7 +131,7 @@ const Dashboard = () => {
 						</List>
 					</Collapse>
 					<Divider />
-					<ListItem button onClick={() => setNewProject(true)}>
+					<ListItem button>
 						<ListItemIcon>
 							<ExitToAppRoundedIcon />
 						</ListItemIcon>
@@ -184,28 +155,33 @@ const Dashboard = () => {
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.toolbar} />
-				{newProject && (
-					<div className={classes.newProject}>
-						<div className={classes.wrapperTextField}>
-						<h2 className={classes.h2NewProject}>Creating project</h2>
-							<TextField id="outlined-basic" label="Enter title" variant="outlined" />
-							<TextField
-								id="outlined-basic"
-								label="Enter description"
-								variant="outlined"
-								className={classes.textField2}
-							/>
-						</div>
-						<div className={classes.squareImg}>
-							<Tooltip title="Add" aria-label="add">
-								<Fab color="primary" className={classes.fab}>
-									<AddIcon />
-								</Fab>
-							</Tooltip>
-							<input id="image-file" type="file" />
-						</div>
-					</div>
-				)}
+				<Typography paragraph>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
+					enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
+					imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+					Convallis convallis tellus id interdum velit laoreet id donec ultrices.
+					Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
+					adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
+					nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
+					leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
+					feugiat vivamus at augue. At augue eget arcu dictum varius duis at
+					consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
+					sapien faucibus et molestie ac.
+				</Typography>
+				<Typography paragraph>
+					Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
+					eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
+					neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
+					tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
+					sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
+					tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
+					gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
+					et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
+					tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
+					eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
+					posuere sollicitudin aliquam ultrices sagittis orci a.
+				</Typography>
 			</main>
 		</div>
 	);

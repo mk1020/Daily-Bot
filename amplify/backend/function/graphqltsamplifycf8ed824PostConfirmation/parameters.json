@@ -1,1 +1,4 @@
-{"modules":"add-to-group"}
+{
+    "modules": "add-to-group",
+    "resourceName": "graphqltsamplifycf8ed824PostConfirmation"
+}

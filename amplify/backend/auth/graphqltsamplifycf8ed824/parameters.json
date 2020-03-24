@@ -31,7 +31,7 @@
         "name"
     ],
     "userpoolClientLambdaRole": "graphqcf8ed824_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": true,
+    "userpoolClientSetAttributes": false,
     "resourceName": "graphqltsamplifycf8ed824",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {

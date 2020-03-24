@@ -16,7 +16,7 @@ import { Auth } from 'aws-amplify';
 import styles from './ForgotPass.module.css';
 import { connect } from 'react-redux';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
-import { ListSubheader, Avatar, TextField, Tooltip } from '@material-ui/core';
+import { ListSubheader, Avatar, TextField } from '@material-ui/core';
 import TouchAppSharpIcon from '@material-ui/icons/TouchAppSharp';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -24,9 +24,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ReorderRoundedIcon from '@material-ui/icons/ReorderRounded';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import { deepOrange } from '@material-ui/core/colors';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-
+import { resolve } from 'url';
+import { Resolver } from 'dns';
 const drawerWidth = 230;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -67,32 +66,15 @@ const useStyles = makeStyles((theme: Theme) =>
 			color: theme.palette.getContrastText(deepOrange[500]),
 			backgroundColor: deepOrange[500],
 		},
-		newProject: {},
-		wrapperTextField: {
+		newProject: {
 			display: 'flex',
-			flexDirection: 'column',
-			maxWidth: '300px',
+			flexDirection: "column"
+		},
+		wrapperTextField: {
+			maxWidth: "60%"
 		},
 		textField2: {
-			marginTop: 8,
-			marginBottom: 8,
-		},
-		fab: {
-			margin: theme.spacing(2),
-		},
-		squareImg: {
-			display: "flex",
-			justifyContent: 'flex-end',
-			alignItems: 'flex-end',
-			width: 300,
-			height: 300,
-			border: '1px solid #bdbebd',
-		},
-		h2NewProject:{
-			textAlign: "center",
-			  fontFamily: 'Caveat, cursive',
-			  fontWeight: 700,
-			  fontSize: 24
+			marginTop:6
 		}
 	})
 );
@@ -187,22 +169,13 @@ const Dashboard = () => {
 				{newProject && (
 					<div className={classes.newProject}>
 						<div className={classes.wrapperTextField}>
-						<h2 className={classes.h2NewProject}>Creating project</h2>
-							<TextField id="outlined-basic" label="Enter title" variant="outlined" />
-							<TextField
-								id="outlined-basic"
-								label="Enter description"
-								variant="outlined"
-								className={classes.textField2}
-							/>
-						</div>
-						<div className={classes.squareImg}>
-							<Tooltip title="Add" aria-label="add">
-								<Fab color="primary" className={classes.fab}>
-									<AddIcon />
-								</Fab>
-							</Tooltip>
-							<input id="image-file" type="file" />
+						<TextField id="outlined-basic" label="Enter title" variant="outlined" />
+						<TextField
+							id="outlined-basic"
+							label="Enter description"
+							variant="outlined"
+							className={classes.textField2}
+						/>
 						</div>
 					</div>
 				)}

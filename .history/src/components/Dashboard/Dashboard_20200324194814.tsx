@@ -87,13 +87,8 @@ const useStyles = makeStyles((theme: Theme) =>
 			width: 300,
 			height: 300,
 			border: '1px solid #bdbebd',
+			
 		},
-		h2NewProject:{
-			textAlign: "center",
-			  fontFamily: 'Caveat, cursive',
-			  fontWeight: 700,
-			  fontSize: 24
-		}
 	})
 );
 
@@ -186,8 +181,8 @@ const Dashboard = () => {
 				<div className={classes.toolbar} />
 				{newProject && (
 					<div className={classes.newProject}>
+						Creating project
 						<div className={classes.wrapperTextField}>
-						<h2 className={classes.h2NewProject}>Creating project</h2>
 							<TextField id="outlined-basic" label="Enter title" variant="outlined" />
 							<TextField
 								id="outlined-basic"
@@ -202,7 +197,6 @@ const Dashboard = () => {
 									<AddIcon />
 								</Fab>
 							</Tooltip>
-							<input id="image-file" type="file" />
 						</div>
 					</div>
 				)}

@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			color: theme.palette.getContrastText(deepOrange[500]),
 			backgroundColor: deepOrange[500],
 		},
-		newProject: {},
+		newProject: {display: "flex"},
 		wrapperTextField: {
 			display: 'flex',
 			flexDirection: 'column',
@@ -75,24 +75,14 @@ const useStyles = makeStyles((theme: Theme) =>
 		},
 		textField2: {
 			marginTop: 8,
-			marginBottom: 8,
 		},
 		fab: {
-			margin: theme.spacing(2),
+			margin: theme.spacing(0),
 		},
 		squareImg: {
-			display: "flex",
-			justifyContent: 'flex-end',
-			alignItems: 'flex-end',
 			width: 300,
 			height: 300,
-			border: '1px solid #bdbebd',
-		},
-		h2NewProject:{
-			textAlign: "center",
-			  fontFamily: 'Caveat, cursive',
-			  fontWeight: 700,
-			  fontSize: 24
+			border: "1px solid #000000"
 		}
 	})
 );
@@ -187,7 +177,6 @@ const Dashboard = () => {
 				{newProject && (
 					<div className={classes.newProject}>
 						<div className={classes.wrapperTextField}>
-						<h2 className={classes.h2NewProject}>Creating project</h2>
 							<TextField id="outlined-basic" label="Enter title" variant="outlined" />
 							<TextField
 								id="outlined-basic"
@@ -196,14 +185,13 @@ const Dashboard = () => {
 								className={classes.textField2}
 							/>
 						</div>
-						<div className={classes.squareImg}>
-							<Tooltip title="Add" aria-label="add">
-								<Fab color="primary" className={classes.fab}>
-									<AddIcon />
-								</Fab>
-							</Tooltip>
-							<input id="image-file" type="file" />
-						</div>
+						<div className={classes.squareImg}></div>
+						<Tooltip title="Add" aria-label="add">
+							<Fab color="primary" className={classes.fab}>
+								<AddIcon />
+							</Fab>
+						</Tooltip>
+
 					</div>
 				)}
 			</main>

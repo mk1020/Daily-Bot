@@ -16,13 +16,13 @@
                 "graphqltsamplifycf8ed824": {}
             },
             "function": {
-                "graphqltsamplifycf8ed824PostConfirmation": {
-                    "GROUP": "admins"
-                },
                 "graphqltsamplifycf8ed824CustomMessage": {
                     "REDIRECTURL": "http://localhost:3000/signin",
                     "EMAILSUBJECT": "Please confirm your registration",
                     "EMAILMESSAGE": "Please confirm your registration. {##Verify Email##} "
+                },
+                "graphqltsamplifycf8ed824PostConfirmation": {
+                    "GROUP": "users"
                 }
             }
         }

@@ -299,9 +299,6 @@ Resources:
     Properties:
       ClientName: graphqcf8ed824_app_clientWeb
       
-      ReadAttributes: !Ref userpoolClientReadAttributes
-      WriteAttributes: !Ref userpoolClientWriteAttributes
-      
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
     DependsOn: UserPool
@@ -311,9 +308,6 @@ Resources:
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
       ClientName: graphqcf8ed824_app_client
-      
-      ReadAttributes: !Ref userpoolClientReadAttributes
-      WriteAttributes: !Ref userpoolClientWriteAttributes
       
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
