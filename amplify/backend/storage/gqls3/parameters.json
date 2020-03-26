@@ -1,0 +1,35 @@
+{
+    "bucketName": "daily-bucket",
+    "authPolicyName": "s3_amplify_06699eca",
+    "unauthPolicyName": "s3_amplify_06699eca",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "selectedGuestPermissions": [
+        "s3:GetObject",
+        "s3:ListBucket"
+    ],
+    "selectedAuthenticatedPermissions": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:DeleteObject"
+    ],
+    "s3PermissionsGuestPublic": "DISALLOW",
+    "s3PermissionsGuestUploads": "DISALLOW",
+    "GuestAllowList": "DISALLOW",
+    "s3PermissionsAuthenticatedPublic": "DISALLOW",
+    "s3PermissionsAuthenticatedProtected": "DISALLOW",
+    "s3PermissionsAuthenticatedPrivate": "DISALLOW",
+    "s3PermissionsAuthenticatedUploads": "DISALLOW",
+    "AuthenticatedAllowList": "DISALLOW",
+    "triggerFunction": "NONE",
+    "s3PublicPolicy": "Public_policy_fd1da329",
+    "s3UploadsPolicy": "Uploads_policy_fd1da329",
+    "s3ProtectedPolicy": "Protected_policy_fd1da329",
+    "s3PrivatePolicy": "Private_policy_fd1da329",
+    "s3ReadPolicy": "read_policy_fd1da329"
+}

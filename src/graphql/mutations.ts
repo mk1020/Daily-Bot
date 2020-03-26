@@ -1,48 +1,63 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const createTask = /* GraphQL */ `
-  mutation CreateTask(
-    $input: CreateTaskInput!
-    $condition: ModelTaskConditionInput
+export const createProject = /* GraphQL */ `
+  mutation CreateProject(
+    $input: CreateProjectInput!
+    $condition: ModelProjectConditionInput
   ) {
-    createTask(input: $input, condition: $condition) {
+    createProject(input: $input, condition: $condition) {
       id
       title
       description
       status
+      image {
+        bucket
+        region
+        key
+      }
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const updateTask = /* GraphQL */ `
-  mutation UpdateTask(
-    $input: UpdateTaskInput!
-    $condition: ModelTaskConditionInput
+export const updateProject = /* GraphQL */ `
+  mutation UpdateProject(
+    $input: UpdateProjectInput!
+    $condition: ModelProjectConditionInput
   ) {
-    updateTask(input: $input, condition: $condition) {
+    updateProject(input: $input, condition: $condition) {
       id
       title
       description
       status
+      image {
+        bucket
+        region
+        key
+      }
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const deleteTask = /* GraphQL */ `
-  mutation DeleteTask(
-    $input: DeleteTaskInput!
-    $condition: ModelTaskConditionInput
+export const deleteProject = /* GraphQL */ `
+  mutation DeleteProject(
+    $input: DeleteProjectInput!
+    $condition: ModelProjectConditionInput
   ) {
-    deleteTask(input: $input, condition: $condition) {
+    deleteProject(input: $input, condition: $condition) {
       id
       title
       description
       status
+      image {
+        bucket
+        region
+        key
+      }
       _version
       _deleted
       _lastChangedAt

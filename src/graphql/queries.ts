@@ -1,14 +1,14 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const syncTasks = /* GraphQL */ `
-  query SyncTasks(
-    $filter: ModelTaskFilterInput
+export const syncProjects = /* GraphQL */ `
+  query SyncProjects(
+    $filter: ModelProjectFilterInput
     $limit: Int
     $nextToken: String
     $lastSync: AWSTimestamp
   ) {
-    syncTasks(
+    syncProjects(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -19,6 +19,11 @@ export const syncTasks = /* GraphQL */ `
         title
         description
         status
+        image {
+          bucket
+          region
+          key
+        }
         _version
         _deleted
         _lastChangedAt
@@ -28,31 +33,41 @@ export const syncTasks = /* GraphQL */ `
     }
   }
 `;
-export const getTask = /* GraphQL */ `
-  query GetTask($id: ID!) {
-    getTask(id: $id) {
+export const getProject = /* GraphQL */ `
+  query GetProject($id: ID!) {
+    getProject(id: $id) {
       id
       title
       description
       status
+      image {
+        bucket
+        region
+        key
+      }
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const listTasks = /* GraphQL */ `
-  query ListTasks(
-    $filter: ModelTaskFilterInput
+export const listProjects = /* GraphQL */ `
+  query ListProjects(
+    $filter: ModelProjectFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listProjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         title
         description
         status
+        image {
+          bucket
+          region
+          key
+        }
         _version
         _deleted
         _lastChangedAt

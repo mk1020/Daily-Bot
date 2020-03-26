@@ -96,5 +96,34 @@
                 }
             }
         }
+    },
+    "storage": {
+        "gqls3": {
+            "service": "S3",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "auth",
+                    "resourceName": "graphqltsamplifycf8ed824",
+                    "attributes": [
+                        "UserPoolId"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "userPoolGroups",
+                    "attributes": [
+                        "adminsGroupRole"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "userPoolGroups",
+                    "attributes": [
+                        "usersGroupRole"
+                    ]
+                }
+            ]
+        }
     }
 }

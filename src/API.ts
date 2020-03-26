@@ -2,21 +2,28 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateTaskInput = {
+export type CreateProjectInput = {
   id?: string | null,
   title: string,
   description?: string | null,
   status?: string | null,
+  image?: S3ObjectInput | null,
   _version?: number | null,
 };
 
-export type ModelTaskConditionInput = {
+export type S3ObjectInput = {
+  bucket: string,
+  region: string,
+  key: string,
+};
+
+export type ModelProjectConditionInput = {
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
   status?: ModelStringInput | null,
-  and?: Array< ModelTaskConditionInput | null > | null,
-  or?: Array< ModelTaskConditionInput | null > | null,
-  not?: ModelTaskConditionInput | null,
+  and?: Array< ModelProjectConditionInput | null > | null,
+  or?: Array< ModelProjectConditionInput | null > | null,
+  not?: ModelProjectConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -59,15 +66,16 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type UpdateTaskInput = {
+export type UpdateProjectInput = {
   id: string,
   title?: string | null,
   description?: string | null,
   status?: string | null,
+  image?: S3ObjectInput | null,
   _version?: number | null,
 };
 
-export type DeleteTaskInput = {
+export type DeleteProjectInput = {
   id?: string | null,
   _version?: number | null,
 };
@@ -96,14 +104,14 @@ export type DeletePrivateNoteInput = {
   _version?: number | null,
 };
 
-export type ModelTaskFilterInput = {
+export type ModelProjectFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
   status?: ModelStringInput | null,
-  and?: Array< ModelTaskFilterInput | null > | null,
-  or?: Array< ModelTaskFilterInput | null > | null,
-  not?: ModelTaskFilterInput | null,
+  and?: Array< ModelProjectFilterInput | null > | null,
+  or?: Array< ModelProjectFilterInput | null > | null,
+  not?: ModelProjectFilterInput | null,
 };
 
 export type ModelIDInput = {
@@ -130,54 +138,72 @@ export type ModelPrivateNoteFilterInput = {
   not?: ModelPrivateNoteFilterInput | null,
 };
 
-export type CreateTaskMutationVariables = {
-  input: CreateTaskInput,
-  condition?: ModelTaskConditionInput | null,
+export type CreateProjectMutationVariables = {
+  input: CreateProjectInput,
+  condition?: ModelProjectConditionInput | null,
 };
 
-export type CreateTaskMutation = {
-  createTask:  {
-    __typename: "Task",
+export type CreateProjectMutation = {
+  createProject:  {
+    __typename: "Project",
     id: string,
     title: string,
     description: string | null,
     status: string | null,
+    image:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type UpdateTaskMutationVariables = {
-  input: UpdateTaskInput,
-  condition?: ModelTaskConditionInput | null,
+export type UpdateProjectMutationVariables = {
+  input: UpdateProjectInput,
+  condition?: ModelProjectConditionInput | null,
 };
 
-export type UpdateTaskMutation = {
-  updateTask:  {
-    __typename: "Task",
+export type UpdateProjectMutation = {
+  updateProject:  {
+    __typename: "Project",
     id: string,
     title: string,
     description: string | null,
     status: string | null,
+    image:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type DeleteTaskMutationVariables = {
-  input: DeleteTaskInput,
-  condition?: ModelTaskConditionInput | null,
+export type DeleteProjectMutationVariables = {
+  input: DeleteProjectInput,
+  condition?: ModelProjectConditionInput | null,
 };
 
-export type DeleteTaskMutation = {
-  deleteTask:  {
-    __typename: "Task",
+export type DeleteProjectMutation = {
+  deleteProject:  {
+    __typename: "Project",
     id: string,
     title: string,
     description: string | null,
     status: string | null,
+    image:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
@@ -235,22 +261,28 @@ export type DeletePrivateNoteMutation = {
   } | null,
 };
 
-export type SyncTasksQueryVariables = {
-  filter?: ModelTaskFilterInput | null,
+export type SyncProjectsQueryVariables = {
+  filter?: ModelProjectFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
   lastSync?: number | null,
 };
 
-export type SyncTasksQuery = {
-  syncTasks:  {
-    __typename: "ModelTaskConnection",
+export type SyncProjectsQuery = {
+  syncProjects:  {
+    __typename: "ModelProjectConnection",
     items:  Array< {
-      __typename: "Task",
+      __typename: "Project",
       id: string,
       title: string,
       description: string | null,
       status: string | null,
+      image:  {
+        __typename: "S3Object",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
       _version: number,
       _deleted: boolean | null,
       _lastChangedAt: number,
@@ -260,38 +292,50 @@ export type SyncTasksQuery = {
   } | null,
 };
 
-export type GetTaskQueryVariables = {
+export type GetProjectQueryVariables = {
   id: string,
 };
 
-export type GetTaskQuery = {
-  getTask:  {
-    __typename: "Task",
+export type GetProjectQuery = {
+  getProject:  {
+    __typename: "Project",
     id: string,
     title: string,
     description: string | null,
     status: string | null,
+    image:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type ListTasksQueryVariables = {
-  filter?: ModelTaskFilterInput | null,
+export type ListProjectsQueryVariables = {
+  filter?: ModelProjectFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListTasksQuery = {
-  listTasks:  {
-    __typename: "ModelTaskConnection",
+export type ListProjectsQuery = {
+  listProjects:  {
+    __typename: "ModelProjectConnection",
     items:  Array< {
-      __typename: "Task",
+      __typename: "Project",
       id: string,
       title: string,
       description: string | null,
       status: string | null,
+      image:  {
+        __typename: "S3Object",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
       _version: number,
       _deleted: boolean | null,
       _lastChangedAt: number,
@@ -364,39 +408,57 @@ export type ListPrivateNotesQuery = {
   } | null,
 };
 
-export type OnCreateTaskSubscription = {
-  onCreateTask:  {
-    __typename: "Task",
+export type OnCreateProjectSubscription = {
+  onCreateProject:  {
+    __typename: "Project",
     id: string,
     title: string,
     description: string | null,
     status: string | null,
+    image:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type OnUpdateTaskSubscription = {
-  onUpdateTask:  {
-    __typename: "Task",
+export type OnUpdateProjectSubscription = {
+  onUpdateProject:  {
+    __typename: "Project",
     id: string,
     title: string,
     description: string | null,
     status: string | null,
+    image:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type OnDeleteTaskSubscription = {
-  onDeleteTask:  {
-    __typename: "Task",
+export type OnDeleteProjectSubscription = {
+  onDeleteProject:  {
+    __typename: "Project",
     id: string,
     title: string,
     description: string | null,
     status: string | null,
+    image:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,

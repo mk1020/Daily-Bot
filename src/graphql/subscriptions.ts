@@ -1,39 +1,54 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTask = /* GraphQL */ `
-  subscription OnCreateTask {
-    onCreateTask {
+export const onCreateProject = /* GraphQL */ `
+  subscription OnCreateProject {
+    onCreateProject {
       id
       title
       description
       status
+      image {
+        bucket
+        region
+        key
+      }
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const onUpdateTask = /* GraphQL */ `
-  subscription OnUpdateTask {
-    onUpdateTask {
+export const onUpdateProject = /* GraphQL */ `
+  subscription OnUpdateProject {
+    onUpdateProject {
       id
       title
       description
       status
+      image {
+        bucket
+        region
+        key
+      }
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const onDeleteTask = /* GraphQL */ `
-  subscription OnDeleteTask {
-    onDeleteTask {
+export const onDeleteProject = /* GraphQL */ `
+  subscription OnDeleteProject {
+    onDeleteProject {
       id
       title
       description
       status
+      image {
+        bucket
+        region
+        key
+      }
       _version
       _deleted
       _lastChangedAt

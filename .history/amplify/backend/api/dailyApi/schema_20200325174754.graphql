@@ -1,0 +1,32 @@
+const { ApolloServer, gql } = require('apollo-server');
+
+type Task 
+  @model 
+  @auth(rules: [
+      {allow: groups, groups: ["admins"], queries: null, mutations: [create, update, delete]},
+      {allow: groups, groups: ["users"], queries: [get, list], mutations: null}
+    ])
+{
+  id: ID!
+  title: String!
+  description: String
+  status: String
+}
+type File {
+  id: ID!
+  path: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+type Mutation {
+  uploadSingleFile(file: Upload!): File!
+}
+
+type PrivateNote
+  @model
+  @auth(rules: [{allow: owner}])
+{
+  id: ID!
+  content: String!
+}
