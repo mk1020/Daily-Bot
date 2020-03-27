@@ -7,11 +7,15 @@ export const onCreateProject = /* GraphQL */ `
       id
       title
       description
-      status
       image {
         bucket
         region
         key
+      }
+      developers {
+        sub
+        name
+        email
       }
       _version
       _deleted
@@ -25,11 +29,15 @@ export const onUpdateProject = /* GraphQL */ `
       id
       title
       description
-      status
       image {
         bucket
         region
         key
+      }
+      developers {
+        sub
+        name
+        email
       }
       _version
       _deleted
@@ -43,51 +51,19 @@ export const onDeleteProject = /* GraphQL */ `
       id
       title
       description
-      status
       image {
         bucket
         region
         key
       }
+      developers {
+        sub
+        name
+        email
+      }
       _version
       _deleted
       _lastChangedAt
-    }
-  }
-`;
-export const onCreatePrivateNote = /* GraphQL */ `
-  subscription OnCreatePrivateNote($owner: String!) {
-    onCreatePrivateNote(owner: $owner) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const onUpdatePrivateNote = /* GraphQL */ `
-  subscription OnUpdatePrivateNote($owner: String!) {
-    onUpdatePrivateNote(owner: $owner) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const onDeletePrivateNote = /* GraphQL */ `
-  subscription OnDeletePrivateNote($owner: String!) {
-    onDeletePrivateNote(owner: $owner) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      owner
     }
   }
 `;

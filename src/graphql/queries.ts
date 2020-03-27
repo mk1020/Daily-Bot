@@ -18,11 +18,15 @@ export const syncProjects = /* GraphQL */ `
         id
         title
         description
-        status
         image {
           bucket
           region
           key
+        }
+        developers {
+          sub
+          name
+          email
         }
         _version
         _deleted
@@ -39,11 +43,15 @@ export const getProject = /* GraphQL */ `
       id
       title
       description
-      status
       image {
         bucket
         region
         key
+      }
+      developers {
+        sub
+        name
+        email
       }
       _version
       _deleted
@@ -62,73 +70,19 @@ export const listProjects = /* GraphQL */ `
         id
         title
         description
-        status
         image {
           bucket
           region
           key
         }
+        developers {
+          sub
+          name
+          email
+        }
         _version
         _deleted
         _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncPrivateNotes = /* GraphQL */ `
-  query SyncPrivateNotes(
-    $filter: ModelPrivateNoteFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncPrivateNotes(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        content
-        _version
-        _deleted
-        _lastChangedAt
-        owner
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getPrivateNote = /* GraphQL */ `
-  query GetPrivateNote($id: ID!) {
-    getPrivateNote(id: $id) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const listPrivateNotes = /* GraphQL */ `
-  query ListPrivateNotes(
-    $filter: ModelPrivateNoteFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPrivateNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        content
-        _version
-        _deleted
-        _lastChangedAt
-        owner
       }
       nextToken
       startedAt

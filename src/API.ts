@@ -6,8 +6,8 @@ export type CreateProjectInput = {
   id?: string | null,
   title: string,
   description?: string | null,
-  status?: string | null,
   image?: S3ObjectInput | null,
+  developers?: Array< DevelopersInput | null > | null,
   _version?: number | null,
 };
 
@@ -17,10 +17,15 @@ export type S3ObjectInput = {
   key: string,
 };
 
+export type DevelopersInput = {
+  sub: string,
+  name: string,
+  email: string,
+};
+
 export type ModelProjectConditionInput = {
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
-  status?: ModelStringInput | null,
   and?: Array< ModelProjectConditionInput | null > | null,
   or?: Array< ModelProjectConditionInput | null > | null,
   not?: ModelProjectConditionInput | null,
@@ -70,8 +75,8 @@ export type UpdateProjectInput = {
   id: string,
   title?: string | null,
   description?: string | null,
-  status?: string | null,
   image?: S3ObjectInput | null,
+  developers?: Array< DevelopersInput | null > | null,
   _version?: number | null,
 };
 
@@ -80,35 +85,10 @@ export type DeleteProjectInput = {
   _version?: number | null,
 };
 
-export type CreatePrivateNoteInput = {
-  id?: string | null,
-  content: string,
-  _version?: number | null,
-};
-
-export type ModelPrivateNoteConditionInput = {
-  content?: ModelStringInput | null,
-  and?: Array< ModelPrivateNoteConditionInput | null > | null,
-  or?: Array< ModelPrivateNoteConditionInput | null > | null,
-  not?: ModelPrivateNoteConditionInput | null,
-};
-
-export type UpdatePrivateNoteInput = {
-  id: string,
-  content?: string | null,
-  _version?: number | null,
-};
-
-export type DeletePrivateNoteInput = {
-  id?: string | null,
-  _version?: number | null,
-};
-
 export type ModelProjectFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
-  status?: ModelStringInput | null,
   and?: Array< ModelProjectFilterInput | null > | null,
   or?: Array< ModelProjectFilterInput | null > | null,
   not?: ModelProjectFilterInput | null,
@@ -130,14 +110,6 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type ModelPrivateNoteFilterInput = {
-  id?: ModelIDInput | null,
-  content?: ModelStringInput | null,
-  and?: Array< ModelPrivateNoteFilterInput | null > | null,
-  or?: Array< ModelPrivateNoteFilterInput | null > | null,
-  not?: ModelPrivateNoteFilterInput | null,
-};
-
 export type CreateProjectMutationVariables = {
   input: CreateProjectInput,
   condition?: ModelProjectConditionInput | null,
@@ -149,13 +121,18 @@ export type CreateProjectMutation = {
     id: string,
     title: string,
     description: string | null,
-    status: string | null,
     image:  {
       __typename: "S3Object",
       bucket: string,
       region: string,
       key: string,
     } | null,
+    developers:  Array< {
+      __typename: "Developers",
+      sub: string,
+      name: string,
+      email: string,
+    } | null > | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
@@ -173,13 +150,18 @@ export type UpdateProjectMutation = {
     id: string,
     title: string,
     description: string | null,
-    status: string | null,
     image:  {
       __typename: "S3Object",
       bucket: string,
       region: string,
       key: string,
     } | null,
+    developers:  Array< {
+      __typename: "Developers",
+      sub: string,
+      name: string,
+      email: string,
+    } | null > | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
@@ -197,67 +179,21 @@ export type DeleteProjectMutation = {
     id: string,
     title: string,
     description: string | null,
-    status: string | null,
     image:  {
       __typename: "S3Object",
       bucket: string,
       region: string,
       key: string,
     } | null,
+    developers:  Array< {
+      __typename: "Developers",
+      sub: string,
+      name: string,
+      email: string,
+    } | null > | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
-  } | null,
-};
-
-export type CreatePrivateNoteMutationVariables = {
-  input: CreatePrivateNoteInput,
-  condition?: ModelPrivateNoteConditionInput | null,
-};
-
-export type CreatePrivateNoteMutation = {
-  createPrivateNote:  {
-    __typename: "PrivateNote",
-    id: string,
-    content: string,
-    _version: number,
-    _deleted: boolean | null,
-    _lastChangedAt: number,
-    owner: string | null,
-  } | null,
-};
-
-export type UpdatePrivateNoteMutationVariables = {
-  input: UpdatePrivateNoteInput,
-  condition?: ModelPrivateNoteConditionInput | null,
-};
-
-export type UpdatePrivateNoteMutation = {
-  updatePrivateNote:  {
-    __typename: "PrivateNote",
-    id: string,
-    content: string,
-    _version: number,
-    _deleted: boolean | null,
-    _lastChangedAt: number,
-    owner: string | null,
-  } | null,
-};
-
-export type DeletePrivateNoteMutationVariables = {
-  input: DeletePrivateNoteInput,
-  condition?: ModelPrivateNoteConditionInput | null,
-};
-
-export type DeletePrivateNoteMutation = {
-  deletePrivateNote:  {
-    __typename: "PrivateNote",
-    id: string,
-    content: string,
-    _version: number,
-    _deleted: boolean | null,
-    _lastChangedAt: number,
-    owner: string | null,
   } | null,
 };
 
@@ -276,13 +212,18 @@ export type SyncProjectsQuery = {
       id: string,
       title: string,
       description: string | null,
-      status: string | null,
       image:  {
         __typename: "S3Object",
         bucket: string,
         region: string,
         key: string,
       } | null,
+      developers:  Array< {
+        __typename: "Developers",
+        sub: string,
+        name: string,
+        email: string,
+      } | null > | null,
       _version: number,
       _deleted: boolean | null,
       _lastChangedAt: number,
@@ -302,13 +243,18 @@ export type GetProjectQuery = {
     id: string,
     title: string,
     description: string | null,
-    status: string | null,
     image:  {
       __typename: "S3Object",
       bucket: string,
       region: string,
       key: string,
     } | null,
+    developers:  Array< {
+      __typename: "Developers",
+      sub: string,
+      name: string,
+      email: string,
+    } | null > | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
@@ -329,79 +275,21 @@ export type ListProjectsQuery = {
       id: string,
       title: string,
       description: string | null,
-      status: string | null,
       image:  {
         __typename: "S3Object",
         bucket: string,
         region: string,
         key: string,
       } | null,
+      developers:  Array< {
+        __typename: "Developers",
+        sub: string,
+        name: string,
+        email: string,
+      } | null > | null,
       _version: number,
       _deleted: boolean | null,
       _lastChangedAt: number,
-    } | null > | null,
-    nextToken: string | null,
-    startedAt: number | null,
-  } | null,
-};
-
-export type SyncPrivateNotesQueryVariables = {
-  filter?: ModelPrivateNoteFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncPrivateNotesQuery = {
-  syncPrivateNotes:  {
-    __typename: "ModelPrivateNoteConnection",
-    items:  Array< {
-      __typename: "PrivateNote",
-      id: string,
-      content: string,
-      _version: number,
-      _deleted: boolean | null,
-      _lastChangedAt: number,
-      owner: string | null,
-    } | null > | null,
-    nextToken: string | null,
-    startedAt: number | null,
-  } | null,
-};
-
-export type GetPrivateNoteQueryVariables = {
-  id: string,
-};
-
-export type GetPrivateNoteQuery = {
-  getPrivateNote:  {
-    __typename: "PrivateNote",
-    id: string,
-    content: string,
-    _version: number,
-    _deleted: boolean | null,
-    _lastChangedAt: number,
-    owner: string | null,
-  } | null,
-};
-
-export type ListPrivateNotesQueryVariables = {
-  filter?: ModelPrivateNoteFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListPrivateNotesQuery = {
-  listPrivateNotes:  {
-    __typename: "ModelPrivateNoteConnection",
-    items:  Array< {
-      __typename: "PrivateNote",
-      id: string,
-      content: string,
-      _version: number,
-      _deleted: boolean | null,
-      _lastChangedAt: number,
-      owner: string | null,
     } | null > | null,
     nextToken: string | null,
     startedAt: number | null,
@@ -414,13 +302,18 @@ export type OnCreateProjectSubscription = {
     id: string,
     title: string,
     description: string | null,
-    status: string | null,
     image:  {
       __typename: "S3Object",
       bucket: string,
       region: string,
       key: string,
     } | null,
+    developers:  Array< {
+      __typename: "Developers",
+      sub: string,
+      name: string,
+      email: string,
+    } | null > | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
@@ -433,13 +326,18 @@ export type OnUpdateProjectSubscription = {
     id: string,
     title: string,
     description: string | null,
-    status: string | null,
     image:  {
       __typename: "S3Object",
       bucket: string,
       region: string,
       key: string,
     } | null,
+    developers:  Array< {
+      __typename: "Developers",
+      sub: string,
+      name: string,
+      email: string,
+    } | null > | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
@@ -452,63 +350,20 @@ export type OnDeleteProjectSubscription = {
     id: string,
     title: string,
     description: string | null,
-    status: string | null,
     image:  {
       __typename: "S3Object",
       bucket: string,
       region: string,
       key: string,
     } | null,
+    developers:  Array< {
+      __typename: "Developers",
+      sub: string,
+      name: string,
+      email: string,
+    } | null > | null,
     _version: number,
     _deleted: boolean | null,
     _lastChangedAt: number,
-  } | null,
-};
-
-export type OnCreatePrivateNoteSubscriptionVariables = {
-  owner: string,
-};
-
-export type OnCreatePrivateNoteSubscription = {
-  onCreatePrivateNote:  {
-    __typename: "PrivateNote",
-    id: string,
-    content: string,
-    _version: number,
-    _deleted: boolean | null,
-    _lastChangedAt: number,
-    owner: string | null,
-  } | null,
-};
-
-export type OnUpdatePrivateNoteSubscriptionVariables = {
-  owner: string,
-};
-
-export type OnUpdatePrivateNoteSubscription = {
-  onUpdatePrivateNote:  {
-    __typename: "PrivateNote",
-    id: string,
-    content: string,
-    _version: number,
-    _deleted: boolean | null,
-    _lastChangedAt: number,
-    owner: string | null,
-  } | null,
-};
-
-export type OnDeletePrivateNoteSubscriptionVariables = {
-  owner: string,
-};
-
-export type OnDeletePrivateNoteSubscription = {
-  onDeletePrivateNote:  {
-    __typename: "PrivateNote",
-    id: string,
-    content: string,
-    _version: number,
-    _deleted: boolean | null,
-    _lastChangedAt: number,
-    owner: string | null,
   } | null,
 };

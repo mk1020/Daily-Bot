@@ -8,19 +8,16 @@ type Project
   id: ID!
   title: String!
   description: String
-  status: String
   image: S3Object
+  developers: [Developers]
 }
 type S3Object {
   bucket: String!
   region: String!
   key: String!
 }
-
-type PrivateNote
-  @model
-  @auth(rules: [{allow: owner}])
-{
-  id: ID!
-  content: String!
+type Developers {
+  sub: String!
+  name: String!
+  email: String!
 }
