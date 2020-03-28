@@ -13,39 +13,21 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import Collapse from '@material-ui/core/Collapse';
 import { Storage, API, graphqlOperation, Auth } from 'aws-amplify';
-import styles from './ForgotPass.module.css';
 import { connect } from 'react-redux';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import {
-	ListSubheader,
 	Avatar,
-	TextField,
-	Tooltip,
-	IconButton,
-	Button,
+
 } from '@material-ui/core';
-import TouchAppSharpIcon from '@material-ui/icons/TouchAppSharp';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ReorderRoundedIcon from '@material-ui/icons/ReorderRounded';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import { deepOrange } from '@material-ui/core/colors';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-import awsconfig from '../../aws-exports';
-import uuid from 'uuid/v4';
-import { createProject, updateProject } from '../../graphql/mutations';
 import { listProjects } from '../../graphql/queries';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import AWS from 'aws-sdk';
-import { AddProject } from './AddProject/AddProject';
 
-/* const {
-	aws_user_files_s3_bucket_region: region,
-	aws_user_files_s3_bucket: bucket,
-} = awsconfig; */
+import { AddProject } from './AddProject/AddProject';
 
 const drawerWidth = 230;
 
@@ -128,89 +110,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Dashboard = () => {
-	 interface Developer {
+	interface Developer {
 		sub: string;
 		name: string;
 		email: string;
-	}/*
-	const initDeveloper = {
-		sub: null,
-		name: null,
-		email: null,
-	}; */
+	}
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
 	const [Name, setName] = useState(' ');
 	const [newProject, setNewProject] = useState(false);
-	const [file, updateFile] = useState(null);
-	const [projectName, setProjectName] = useState('');
-	const [projectDescription, setProjectDescription] = useState('');
-	const [imgSrc, setImgSrc] = useState(null);
 	const [cognitoGroup, setCognitoGroup] = useState('');
-	const [fileKey, setFileKey] = useState('');
-	const [usersList, setUsersList] = useState([]);
-	/* const [listSelectedDevelop, changeListSelectedDevelop] = useState<
-		Array<Developer>
-	>([initDeveloper]); */
 	const [titleAllProjects, setTitleAllProjects] = useState<Array<string>>(['']);
 
-	/* const getUsers = async () => {
-		try {
-			type Params = {
-				UserPoolId: string;
-				Limit: number;
-				paginationToken?: string;
-			};
-			let allUsers = [];
-			let more: boolean = true;
-			let paginationToken: string = '';
-
-			while (more) {
-				let params = {
-					UserPoolId: 'eu-central-1_incRTtdVN',
-					Limit: 60,
-				};
-				if (paginationToken !== '') {
-					params['PaginationToken'] = paginationToken;
-				}
-
-				let accessKeyId: string = '';
-				let secretAccessKey: string = '';
-				await Auth.currentCredentials().then(result => {
-					accessKeyId = 'AKIA4OWNERKG3GPEAFON';
-					secretAccessKey = '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';
-				});
-
-				await AWS.config.update({
-					region: 'eu-central-1',
-					accessKeyId,
-					secretAccessKey,
-				});
-
-				const cognito = await new AWS.CognitoIdentityServiceProvider();
-
-				const rawUsers = await cognito.listUsers(params).promise();
-
-				 const addUserParams = {
-					GroupName: 'admins',
-					UserPoolId: 'eu-central-1_incRTtdVN',
-					Username: "2a32341c-4fd7-4182-9d72-911b0e5db605",
-				  };
-				await cognito.adminRemoveUserFromGroup(addUserParams).promise(); 
-
-				allUsers = allUsers.concat(rawUsers.Users);
-				if (rawUsers.PaginationToken) {
-					paginationToken = rawUsers.PaginationToken;
-				} else {
-					more = false;
-				}
-			}
-			setUsersList(allUsers);
-		} catch (e) {
-			console.log(e);
-			debugger;
-		}
-	}; */
 	const history = useHistory();
 
 	const handleClick = () => {
@@ -224,32 +135,9 @@ const Dashboard = () => {
 		Auth.currentSession().then(res => {
 			setCognitoGroup(res.getIdToken().payload['cognito:groups'][0]);
 		});
-		//getUsers();
 		listProject();
 	}, []);
 
-	/* function onSelectImg(e) {
-		updateFile(e.target.files[0]);
-		const reader = new FileReader();
-		reader.addEventListener(
-			'load',
-			() => {
-				setImgSrc(reader.result);
-			},
-			false
-		);
-		if (e.target.files[0]) {
-			reader.readAsDataURL(e.target.files[0]);
-		}
-	} */
-	/* async function fetchImage(key) {
-		try {
-			const imageData = await Storage.get(key);
-			//updateImgUrl(imageData);
-		} catch (err) {
-			console.log('error: ', err);
-		}
-	} */
 	const listProject = async () => {
 		type Project = {
 			id: string;
@@ -277,44 +165,6 @@ const Dashboard = () => {
 			setTitleAllProjects(allProjects.data.listProjects.items.map(el => el.title));
 	};
 
-	/* async function CreateProject() {
-		console.log(listSelectedDevelop);
-		if (!projectName) return alert('please enter a username'); //TODO: сделать ошибки красивые
-		if (file && projectName && projectDescription) {
-			const { name: fileName, type: mimeType } = file;
-			const key = `${uuid()}${fileName}`;
-			setFileKey(key);
-			const fileForUpload = {
-				bucket,
-				key,
-				region,
-			};
-			const inputData = {
-				title: projectName,
-				description: projectDescription,
-				image: fileForUpload,
-				developers: listSelectedDevelop,
-			};
-
-			try {
-				await Storage.put(key, file, {
-					contentType: mimeType,
-				});
-
-				await API.graphql(graphqlOperation(createProject, { input: inputData }));
-				setProjectName('');
-				setProjectDescription('');
-				updateFile(null);
-				setImgSrc(null);
-				changeListSelectedDevelop([initDeveloper]);
-				//debugger;
-				console.log('successfully stored user data!');
-			} catch (err) {
-				debugger;
-				console.log('error: ', err);
-			}
-		}
-	} */
 	return (
 		<div className={classes.root}>
 			<CssBaseline />
