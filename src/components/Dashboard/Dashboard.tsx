@@ -22,6 +22,7 @@ import {
 	TextField,
 	Tooltip,
 	IconButton,
+	Button,
 } from '@material-ui/core';
 import TouchAppSharpIcon from '@material-ui/icons/TouchAppSharp';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
@@ -39,11 +40,12 @@ import { listProjects } from '../../graphql/queries';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import AWS from 'aws-sdk';
+import { AddProject } from './AddProject/AddProject';
 
-const {
+/* const {
 	aws_user_files_s3_bucket_region: region,
 	aws_user_files_s3_bucket: bucket,
-} = awsconfig;
+} = awsconfig; */
 
 const drawerWidth = 230;
 
@@ -104,7 +106,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			alignItems: 'flex-end',
 			width: 150,
 			height: 150,
-			border: '1px solid #bdbebd',
+			border: '1px dashed #bdbebd',
 			marginTop: 8,
 		},
 		h2NewProject: {
@@ -126,16 +128,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Dashboard = () => {
-	interface Developer {
+	 interface Developer {
 		sub: string;
 		name: string;
 		email: string;
-	}
+	}/*
 	const initDeveloper = {
 		sub: null,
 		name: null,
 		email: null,
-	};
+	}; */
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
 	const [Name, setName] = useState(' ');
@@ -147,11 +149,12 @@ const Dashboard = () => {
 	const [cognitoGroup, setCognitoGroup] = useState('');
 	const [fileKey, setFileKey] = useState('');
 	const [usersList, setUsersList] = useState([]);
-	const [listSelectedDevelop, changeListSelectedDevelop] = useState<
+	/* const [listSelectedDevelop, changeListSelectedDevelop] = useState<
 		Array<Developer>
-	>([initDeveloper]);
+	>([initDeveloper]); */
+	const [titleAllProjects, setTitleAllProjects] = useState<Array<string>>(['']);
 
-	const getUsers = async () => {
+	/* const getUsers = async () => {
 		try {
 			type Params = {
 				UserPoolId: string;
@@ -187,6 +190,14 @@ const Dashboard = () => {
 				const cognito = await new AWS.CognitoIdentityServiceProvider();
 
 				const rawUsers = await cognito.listUsers(params).promise();
+
+				 const addUserParams = {
+					GroupName: 'admins',
+					UserPoolId: 'eu-central-1_incRTtdVN',
+					Username: "2a32341c-4fd7-4182-9d72-911b0e5db605",
+				  };
+				await cognito.adminRemoveUserFromGroup(addUserParams).promise(); 
+
 				allUsers = allUsers.concat(rawUsers.Users);
 				if (rawUsers.PaginationToken) {
 					paginationToken = rawUsers.PaginationToken;
@@ -199,7 +210,7 @@ const Dashboard = () => {
 			console.log(e);
 			debugger;
 		}
-	};
+	}; */
 	const history = useHistory();
 
 	const handleClick = () => {
@@ -213,10 +224,11 @@ const Dashboard = () => {
 		Auth.currentSession().then(res => {
 			setCognitoGroup(res.getIdToken().payload['cognito:groups'][0]);
 		});
-		getUsers();
+		//getUsers();
+		listProject();
 	}, []);
 
-	function onSelectImg(e) {
+	/* function onSelectImg(e) {
 		updateFile(e.target.files[0]);
 		const reader = new FileReader();
 		reader.addEventListener(
@@ -229,17 +241,44 @@ const Dashboard = () => {
 		if (e.target.files[0]) {
 			reader.readAsDataURL(e.target.files[0]);
 		}
-	}
-	async function fetchImage(key) {
+	} */
+	/* async function fetchImage(key) {
 		try {
 			const imageData = await Storage.get(key);
 			//updateImgUrl(imageData);
 		} catch (err) {
 			console.log('error: ', err);
 		}
-	}
+	} */
+	const listProject = async () => {
+		type Project = {
+			id: string;
+			title: string;
+			description: string;
+			image: {
+				bucket: string;
+				region: string;
+				key: string;
+			};
+			developers: Developer[];
+		};
+		type GetProjectsQuery = {
+			data: {
+				listProjects: {
+					items: Project[];
+				};
+			};
+		};
 
-	async function CreateProject() {
+		const allProjects = (await API.graphql(
+			graphqlOperation(listProjects)
+		)) as GetProjectsQuery;
+		if (allProjects.data)
+			setTitleAllProjects(allProjects.data.listProjects.items.map(el => el.title));
+	};
+
+	/* async function CreateProject() {
+		console.log(listSelectedDevelop);
 		if (!projectName) return alert('please enter a username'); //TODO: сделать ошибки красивые
 		if (file && projectName && projectDescription) {
 			const { name: fileName, type: mimeType } = file;
@@ -254,6 +293,7 @@ const Dashboard = () => {
 				title: projectName,
 				description: projectDescription,
 				image: fileForUpload,
+				developers: listSelectedDevelop,
 			};
 
 			try {
@@ -266,6 +306,7 @@ const Dashboard = () => {
 				setProjectDescription('');
 				updateFile(null);
 				setImgSrc(null);
+				changeListSelectedDevelop([initDeveloper]);
 				//debugger;
 				console.log('successfully stored user data!');
 			} catch (err) {
@@ -273,7 +314,7 @@ const Dashboard = () => {
 				console.log('error: ', err);
 			}
 		}
-	}
+	} */
 	return (
 		<div className={classes.root}>
 			<CssBaseline />
@@ -307,18 +348,14 @@ const Dashboard = () => {
 					</ListItem>
 					<Collapse in={open} timeout="auto" unmountOnExit>
 						<List component="div" disablePadding>
-							<ListItem button className={classes.nested}>
-								<ListItemIcon>
-									<PlayArrowRoundedIcon />
-								</ListItemIcon>
-								<ListItemText primary="Starred" />
-							</ListItem>
-							<ListItem button className={classes.nested}>
-								<ListItemIcon>
-									<PlayArrowRoundedIcon />
-								</ListItemIcon>
-								<ListItemText primary=" pr №2" />
-							</ListItem>
+							{titleAllProjects.map(el => (
+								<ListItem button className={classes.nested}>
+									<ListItemIcon>
+										<PlayArrowRoundedIcon />
+									</ListItemIcon>
+									<ListItemText primary={el} />
+								</ListItem>
+							))}
 						</List>
 					</Collapse>
 					{cognitoGroup == 'admins' && (
@@ -350,99 +387,7 @@ const Dashboard = () => {
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.toolbar} />
-				{newProject && cognitoGroup == 'admins' && (
-					<div className={classes.newProject}>
-						<div className={classes.wrapperTextField}>
-							<h2 className={classes.h2NewProject}>Creating project</h2>
-							<TextField
-								id="outlined-basic"
-								label="Enter title"
-								variant="outlined"
-								value={projectName}
-								onChange={e => setProjectName(e.target.value)}
-							/>
-							<TextField
-								id="outlined-basic"
-								label="Enter description"
-								variant="outlined"
-								className={classes.textField2}
-								value={projectDescription}
-								onChange={e => setProjectDescription(e.target.value)}
-							/>
-							<Autocomplete
-								multiple
-								id="tags-standard"
-								options={usersList}
-								getOptionLabel={(option): string =>
-									`${option.Attributes[2].Value} (${option.Attributes[3].Value})`
-								}
-								defaultValue={[]}
-								renderInput={params => (
-									<TextField
-										{...params}
-										variant="outlined"
-										label="Select developers"
-										placeholder="Next"
-									/>
-								)}
-								/* onInputChange={(event: object, value: string, reason: string) => {debugger}}
-								 */ onChange={(event: object, value, reason: string) => {
-									const listDeveloper = value.map(el => ({
-										sub: el.Attributes[0].value,
-										name: el.Attributes[2].value,
-										email: el.Attributes[3].value,
-									}));
-									if (reason === 'select-option')
-										changeListSelectedDevelop(listDeveloper);
-								}}
-							/>
-						</div>
-						<div className={classes.squareImg}>
-							<input
-								id="image-file"
-								type="file"
-								className={classes.fileInput}
-								onChange={onSelectImg}
-							/>
-							{imgSrc && (
-								<img className={classes.mainImg} src={imgSrc} alt="mainIMG" />
-							)}
-							{!imgSrc && (
-								<Tooltip
-									title="Add image"
-									aria-label="add"
-									onClick={() => {
-										document.getElementById('image-file').click();
-									}}
-								>
-									<Fab color="primary" className={classes.fab}>
-										<AddIcon />
-									</Fab>
-								</Tooltip>
-							)}
-						</div>
-						<Tooltip title="Delete image" onClick={() => setImgSrc(null)}>
-							<IconButton aria-label="delete">
-								<DeleteIcon />
-							</IconButton>
-						</Tooltip>
-						<button
-							onClick={
-								/* () =>
-									Storage.remove(fileKey)
-										.then(res => {
-											debugger;
-										})
-										.catch(err => {
-											debugger;
-										}) */
-								CreateProject
-							}
-						>
-							create project
-						</button>
-					</div>
-				)}
+				{newProject && cognitoGroup == 'admins' && <AddProject />}
 			</main>
 		</div>
 	);
