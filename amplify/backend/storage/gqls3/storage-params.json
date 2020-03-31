@@ -1,11 +1,19 @@
 {
     "groupPermissionMap": {
-        "admins": [
+        "createUpdateDeleteRead": [
             "create/update",
             "read",
             "delete"
         ],
-        "users": [
+        "createUpdateRead": [
+            "create/update",
+            "read"
+        ],
+        "deleteRead": [
+            "read",
+            "delete"
+        ],
+        "read": [
             "read"
         ]
     }

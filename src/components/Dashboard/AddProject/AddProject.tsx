@@ -24,6 +24,9 @@ const {
 	aws_user_files_s3_bucket_region: region,
 	aws_user_files_s3_bucket: bucket,
 } = awsconfig;
+const accessKeyId: string = 'AKIA4OWNERKG3GPEAFON';
+const secretAccessKey: string = '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';
+
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		newProject: {},
@@ -63,31 +66,63 @@ const useStyles = makeStyles((theme: Theme) =>
 			width: '100%',
 			height: '100%',
 		},
+		group_and_people: {
+			display: 'flex',
+			width: 'inherit',
+			justifyContent: 'space-between',
+			flexWrap: 'wrap',
+			marginBottom: 8,
+		},
+		addGroup: {},
+		addPeople: {},
+		addGroup_Autocomplete: {
+			marginBottom: 8,
+			marginTop: 8,
+		},
+		addPeople_Position: {
+			marginBottom: 8,
+			marginTop: 8,
+		},
 	})
 );
 
 export const AddProject = () => {
-	interface Developer {
+	interface Employee {
 		sub: string;
 		name: string;
 		email: string;
 	}
-	const initDeveloper = {
+	type GroupEmployee = {
+		groupName: string;
+		listEmployee: Employee[];
+		permission: string;
+	};
+	const initEmployee = {
 		sub: null,
 		name: null,
 		email: null,
 	};
 	const classes = useStyles();
 	const [file, updateFile] = useState(null);
-	const [projectName, setProjectName] = useState('');
-	const [projectDescription, setProjectDescription] = useState('');
+	const [projectName, setProjectName] = useState<string>('');
+	const [projectDescription, setProjectDescription] = useState<string>('');
 	const [imgSrc, setImgSrc] = useState(null);
-	const [cognitoGroup, setCognitoGroup] = useState('');
-	const [fileKey, setFileKey] = useState('');
+	const [cognitoGroup, setCognitoGroup] = useState<string>('');
+	const [fileKey, setFileKey] = useState<string>('');
 	const [usersList, setUsersList] = useState([]);
-	const [listSelectedDevelop, changeListSelectedDevelop] = useState<
-		Array<Developer>
-	>([initDeveloper]);
+	const [listSelectedEmployee, changeListSelectedEmployee] = useState<
+		Array<Employee>
+	>([initEmployee]);
+	const [employee, setEmployee] = useState<Employee>(initEmployee);
+	const [eventAddGroup, doEventAddGroup] = useState<boolean>(false);
+	const [groupAdded, setGroupAdded] = useState<boolean>(false);
+	const [eventAddPeople, doEventAddPeople] = useState<boolean>(false);
+	const [employeeAdded, setEmployeeAdded] = useState<boolean>(false);
+	const [groupName, changeGroupName] = useState<string>('');
+	const [selectedPermission, changeSelectedPermission] = useState<string>('');
+	const [employeePosition, changeEmployeePosition] = useState<string>('');
+	const [listGroup, changeListGroup] = useState<Array<GroupEmployee>>([]);
+	const [listEmployee, changeListEmployee] = useState<Array<Employee>>([]);
 
 	const getUsers = async () => {
 		try {
@@ -101,7 +136,7 @@ export const AddProject = () => {
 			let paginationToken: string = '';
 
 			while (more) {
-				let params = {
+				let params: Params = {
 					UserPoolId: 'eu-central-1_incRTtdVN',
 					Limit: 60,
 				};
@@ -109,28 +144,17 @@ export const AddProject = () => {
 					params['PaginationToken'] = paginationToken;
 				}
 
-				let accessKeyId: string = '';
-				let secretAccessKey: string = '';
-				await Auth.currentCredentials().then(result => {
-					accessKeyId = 'AKIA4OWNERKG3GPEAFON';
-					secretAccessKey = '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';
-				});
-
 				await AWS.config.update({
 					region: 'eu-central-1',
 					accessKeyId,
 					secretAccessKey,
 				});
 
-				const cognito = await new AWS.CognitoIdentityServiceProvider();
+				const cognito = new AWS.CognitoIdentityServiceProvider();
 
 				const rawUsers = await cognito.listUsers(params).promise();
 
-				/* const addUserParams = {
-					GroupName: 'admins',
-					UserPoolId: 'eu-central-1_incRTtdVN',
-					Username: "2a32341c-4fd7-4182-9d72-911b0e5db605",
-				  };
+				/* 
 				await cognito.adminRemoveUserFromGroup(addUserParams).promise(); */
 
 				allUsers = allUsers.concat(rawUsers.Users);
@@ -146,7 +170,38 @@ export const AddProject = () => {
 			debugger;
 		}
 	};
+	const addUserToGroup = async () => {
+		function wait(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+		AWS.config.update({
+			region: 'eu-central-1',
+			accessKeyId,
+			secretAccessKey,
+		});
+		const cognito = new AWS.CognitoIdentityServiceProvider();
+		
+		//allEmployee.push(...listEmployee.map((employee)=> employee.sub));
+		for (const group of listGroup) {
+			let groupName: string;
+			if (group.permission === 'create/update/delete/read') groupName='createUpdateDeleteRead';
+			if (group.permission === 'create/update/read') groupName='createUpdateRead';
+			if (group.permission === 'delete/read') groupName='deleteRead';
+			if (group.permission === 'read') groupName='read';
 
+			for (const employee of group.listEmployee) {
+				const addUserParams = {
+					GroupName: groupName,
+					UserPoolId: 'eu-central-1_incRTtdVN',
+					Username: employee.sub,
+				};
+				
+				await cognito/* .adminListGroupsForUser */.adminAddUserToGroup(addUserParams).promise();
+				await wait(105);
+			}
+		}
+		debugger
+	};
 	function onSelectImg(e) {
 		updateFile(e.target.files[0]);
 		const reader = new FileReader();
@@ -163,7 +218,6 @@ export const AddProject = () => {
 	}
 
 	async function CreateProject() {
-		console.log(listSelectedDevelop);
 		if (!projectName) return alert('please enter a username'); //TODO: сделать ошибки красивые
 		if (file && projectName && projectDescription) {
 			const { name: fileName, type: mimeType } = file;
@@ -178,7 +232,8 @@ export const AddProject = () => {
 				title: projectName,
 				description: projectDescription,
 				image: fileForUpload,
-				developers: listSelectedDevelop,
+				listEmployee: listEmployee,
+				listGroupEmployee: listGroup,
 			};
 
 			try {
@@ -191,7 +246,7 @@ export const AddProject = () => {
 				setProjectDescription('');
 				updateFile(null);
 				setImgSrc(null);
-				changeListSelectedDevelop([initDeveloper]);
+				changeListSelectedEmployee([initEmployee]);
 				//debugger;
 				console.log('successfully stored user data!');
 			} catch (err) {
@@ -204,6 +259,13 @@ export const AddProject = () => {
 	useEffect(() => {
 		getUsers();
 	}, []);
+
+	const listPermissions: string[] = [
+		'create/update/delete/read',
+		'create/update/read',
+		'delete/read',
+		'read',
+	];
 	return (
 		<div className={classes.newProject}>
 			<div className={classes.wrapperTextField}>
@@ -223,33 +285,178 @@ export const AddProject = () => {
 					value={projectDescription}
 					onChange={e => setProjectDescription(e.target.value)}
 				/>
-				<Autocomplete
-					multiple
-					id="tags-standard"
-					options={usersList}
-					getOptionLabel={(option): string =>
-						`${option.Attributes[2].Value} (${option.Attributes[3].Value})`
-					}
-					defaultValue={[]}
-					renderInput={params => (
+				<div className={classes.group_and_people}>
+					<Button
+						variant="outlined"
+						size="medium"
+						color="primary"
+						className={''}
+						onClick={() => {
+							setGroupAdded(false);
+							if (eventAddPeople) {
+								doEventAddGroup(true);
+								doEventAddPeople(false);
+							} else doEventAddGroup(!eventAddGroup);
+						}}
+					>
+						Add group
+					</Button>
+					<Button
+						variant="outlined"
+						size="medium"
+						color="primary"
+						className={''}
+						onClick={() => {
+							if (eventAddGroup) {
+								doEventAddGroup(false);
+								doEventAddPeople(true);
+							} else doEventAddPeople(!eventAddPeople);
+							setEmployeeAdded(false);
+						}}
+					>
+						Add people
+					</Button>
+				</div>
+				{eventAddGroup && !groupAdded && (
+					<div className={classes.addGroup}>
 						<TextField
-							{...params}
+							id="outlined-basic"
+							label="Group name"
 							variant="outlined"
-							label="Select developers"
-							placeholder="Next"
+							value={groupName}
+							onChange={e => changeGroupName(e.target.value)}
 						/>
-					)}
-					/* onInputChange={(event: object, value: string, reason: string) => {debugger}}
-					 */ onChange={(event: object, value, reason: string) => {
-						const listDevelopers = value.map(el => ({
-							sub: el.Attributes[0].Value,
-							name: el.Attributes[2].Value,
-							email: el.Attributes[3].Value,
-						}));
-						if (reason === 'select-option') changeListSelectedDevelop(listDevelopers);
-					}}
-					
-				/>
+						<Autocomplete
+							className={classes.addGroup_Autocomplete}
+							multiple
+							id="tags-standard"
+							options={usersList}
+							getOptionLabel={(option): string =>
+								`${option.Attributes[2].Value} (${option.Attributes[3].Value})`
+							}
+							defaultValue={[]}
+							renderInput={params => (
+								<TextField
+									{...params}
+									variant="outlined"
+									label="Select people"
+									placeholder="Next"
+								/>
+							)}
+							/* onInputChange={(event: object, value: string, reason: string) => {debugger}}
+							 */ onChange={(event: object, value, reason: string) => {
+								const listEmployee = value.map(el => ({
+									sub: el.Attributes[0].Value,
+									name: el.Attributes[2].Value,
+									email: el.Attributes[3].Value,
+								}));
+
+								changeListSelectedEmployee(listEmployee);
+							}}
+						/>
+						<Autocomplete
+							/* 						  className={classes.addGroup_Autocomplete}*/
+							id="tags-standard"
+							options={listPermissions}
+							getOptionLabel={(option): any => option}
+							renderInput={params => (
+								<TextField {...params} variant="outlined" label="Select permission" />
+							)}
+							/* onInputChange={(event: object, value: string, reason: string) => {debugger}}
+							 */
+
+							onChange={(event: object, value, reason: string) =>
+								changeSelectedPermission(value)
+							}
+						/>
+						<Button
+							variant="contained"
+							color="primary"
+							disableElevation
+							onClick={() => {
+								const group: GroupEmployee = {
+									groupName: groupName,
+									listEmployee: listSelectedEmployee,
+									permission: selectedPermission,
+								};
+								changeListGroup([...listGroup, group]);
+								setGroupAdded(true);
+								doEventAddGroup(false);
+								doEventAddPeople(false);
+							}}
+						>
+							ADD
+						</Button>
+					</div>
+				)}
+				{groupAdded && <span>Group successful added!</span>}
+				{eventAddPeople && !employeeAdded && (
+					<div className={classes.addPeople}>
+						<Autocomplete
+							id="tags-standard"
+							options={usersList}
+							getOptionLabel={(option): string =>
+								`${option.Attributes[2].Value} (${option.Attributes[3].Value})`
+							}
+							renderInput={params => (
+								<TextField
+									{...params}
+									variant="outlined"
+									label="Select people"
+									placeholder="Next"
+								/>
+							)}
+							/* onInputChange={(event: object, value: string, reason: string) => {debugger}}
+							 */ onChange={(event: object, value, reason: string) => {
+								const employee = {
+									sub: value.Attributes[0].Value,
+									name: value.Attributes[2].Value,
+									email: value.Attributes[3].Value,
+								};
+								setEmployee(employee);
+							}}
+						/>
+						<TextField
+							id="outlined-basic"
+							label="Position"
+							variant="outlined"
+							className={classes.addPeople_Position}
+							value={employeePosition}
+							onChange={e => changeEmployeePosition(e.target.value)}
+						/>
+
+						<Autocomplete
+							/* 						  className={classes.addGroup_Autocomplete}*/
+							id="tags-standard"
+							options={listPermissions}
+							getOptionLabel={(option): any => option}
+							renderInput={params => (
+								<TextField {...params} variant="outlined" label="Select permissions" />
+							)}
+							/* onInputChange={(event: object, value: string, reason: string) => {debugger}}
+							 */
+
+							onChange={(event: object, value, reason: string) => {
+								debugger;
+								changeSelectedPermission(value);
+							}}
+						/>
+						<Button
+							variant="contained"
+							color="primary"
+							disableElevation
+							onClick={() => {
+								changeListEmployee([...listEmployee, employee]);
+								setEmployeeAdded(true);
+								doEventAddPeople(false);
+								doEventAddGroup(false);
+							}}
+						>
+							ADD
+						</Button>
+					</div>
+				)}
+				{employeeAdded && <span>Employee successful added!</span>}
 			</div>
 			<div className={classes.squareImg}>
 				<input
@@ -290,7 +497,8 @@ export const AddProject = () => {
 					.catch(err => {
 						debugger;
 					}) */
-					CreateProject
+					/* CreateProject */
+					addUserToGroup
 				}
 			>
 				Create project

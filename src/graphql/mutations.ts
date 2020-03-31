@@ -15,10 +15,21 @@ export const createProject = /* GraphQL */ `
         region
         key
       }
-      developers {
+      listEmployeeWithoutGroup {
         sub
         name
         email
+        position
+        permissions
+      }
+      listGroupEmployee {
+        groupName
+        listEmployee {
+          sub
+          name
+          email
+        }
+        permissions
       }
       _version
       _deleted
@@ -40,10 +51,21 @@ export const updateProject = /* GraphQL */ `
         region
         key
       }
-      developers {
+      listEmployeeWithoutGroup {
         sub
         name
         email
+        position
+        permissions
+      }
+      listGroupEmployee {
+        groupName
+        listEmployee {
+          sub
+          name
+          email
+        }
+        permissions
       }
       _version
       _deleted
@@ -65,10 +87,21 @@ export const deleteProject = /* GraphQL */ `
         region
         key
       }
-      developers {
+      listEmployeeWithoutGroup {
         sub
         name
         email
+        position
+        permissions
+      }
+      listGroupEmployee {
+        groupName
+        listEmployee {
+          sub
+          name
+          email
+        }
+        permissions
       }
       _version
       _deleted

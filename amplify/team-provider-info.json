@@ -22,7 +22,7 @@
                     "EMAILMESSAGE": "Please confirm your registration. {##Verify Email##} "
                 },
                 "graphqltsamplifycf8ed824PostConfirmation": {
-                    "GROUP": "users"
+                    "GROUP": "read"
                 }
             }
         }

@@ -1,23 +1,43 @@
-type Project 
-  @model 
-  @auth(rules: [
-      {allow: groups, groups: ["admins"],  mutations: [create, update, delete]},
-      {allow: groups, groups: ["users"], queries: [get, list], mutations: null}
-    ])
-{
-  id: ID!
-  title: String!
-  description: String
-  image: S3Object
-  developers: [Developers]
+type Project
+	@model
+	@auth(
+		rules: [
+			{
+				allow: groups
+				groups: ["createUpdateDeleteRead"]
+				mutations: [create, update, delete]
+			}
+			{ allow: groups, groups: ["createUpdateRead"], mutations: [create, update] }
+			{ allow: groups, groups: ["deleteRead"], mutations: [delete] }
+			{ allow: groups, groups: ["read"], queries: [get, list], mutations: null }
+		]
+	) {
+	id: ID!
+	title: String!
+	description: String
+	image: S3Object
+	listEmployeeWithoutGroup: [Employee]
+	listGroupEmployee: [GroupEmployee]
 }
 type S3Object {
-  bucket: String!
-  region: String!
-  key: String!
+	bucket: String!
+	region: String!
+	key: String!
 }
-type Developers {
-  sub: String!
-  name: String!
-  email: String!
+type Employee {
+	sub: String!
+	name: String!
+	email: String!
+	position: String!
+	permissions: String!
+}
+type EmployeeOfGroup {
+	sub: String!
+	name: String!
+	email: String!
+}
+type GroupEmployee {
+	groupName: String!
+	listEmployee: [EmployeeOfGroup]
+	permissions: String!
 }

@@ -39,14 +39,14 @@
     },
     "Resources": {
     
-        "adminsGroup": {
+        "createUpdateDeleteReadGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
-              "GroupName" : "admins",
+              "GroupName" : "createUpdateDeleteRead",
               "Precedence" : 1,
               "RoleArn" : {
                 "Fn::GetAtt": [
-                    "adminsGroupRole",
+                    "createUpdateDeleteReadGroupRole",
                     "Arn"
                 ]
               },
@@ -55,7 +55,7 @@
               } 
             }
         },
-        "adminsGroupRole": {
+        "createUpdateDeleteReadGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName":{
@@ -65,7 +65,7 @@
                           {
                             "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
                           },
-                          "-adminsGroupRole"
+                          "-createUpdateDeleteReadGroupRole"
                         ]
                     ]
                 },
@@ -89,14 +89,14 @@
             }
         },
     
-        "usersGroup": {
+        "createUpdateReadGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
-              "GroupName" : "users",
+              "GroupName" : "createUpdateRead",
               "Precedence" : 2,
               "RoleArn" : {
                 "Fn::GetAtt": [
-                    "usersGroupRole",
+                    "createUpdateReadGroupRole",
                     "Arn"
                 ]
               },
@@ -105,7 +105,7 @@
               } 
             }
         },
-        "usersGroupRole": {
+        "createUpdateReadGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName":{
@@ -115,7 +115,107 @@
                           {
                             "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
                           },
-                          "-usersGroupRole"
+                          "-createUpdateReadGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authgraphqltsamplifycf8ed824IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+    
+        "deleteReadGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "deleteRead",
+              "Precedence" : 3,
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "deleteReadGroupRole",
+                    "Arn"
+                ]
+              },
+              "UserPoolId" : {
+                "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
+              } 
+            }
+        },
+        "deleteReadGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
+                          },
+                          "-deleteReadGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authgraphqltsamplifycf8ed824IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+    
+        "readGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "read",
+              "Precedence" : 4,
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "readGroupRole",
+                    "Arn"
+                ]
+              },
+              "UserPoolId" : {
+                "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
+              } 
+            }
+        },
+        "readGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
+                          },
+                          "-readGroupRole"
                         ]
                     ]
                 },
@@ -336,10 +436,10 @@
     },
     "Outputs": {
       
-        "adminsGroupRole": {
+        "createUpdateDeleteReadGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
-                    "adminsGroupRole",
+                    "createUpdateDeleteReadGroupRole",
                     "Arn"
                 ]
             }
@@ -347,10 +447,32 @@
         },
         
       
-        "usersGroupRole": {
+        "createUpdateReadGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
-                    "usersGroupRole",
+                    "createUpdateReadGroupRole",
+                    "Arn"
+                ]
+            }
+         
+        },
+        
+      
+        "deleteReadGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "deleteReadGroupRole",
+                    "Arn"
+                ]
+            }
+         
+        },
+        
+      
+        "readGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "readGroupRole",
                     "Arn"
                 ]
             }

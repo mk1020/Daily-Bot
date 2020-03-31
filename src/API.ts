@@ -7,7 +7,8 @@ export type CreateProjectInput = {
   title: string,
   description?: string | null,
   image?: S3ObjectInput | null,
-  developers?: Array< DevelopersInput | null > | null,
+  listEmployeeWithoutGroup?: Array< EmployeeInput | null > | null,
+  listGroupEmployee?: Array< GroupEmployeeInput | null > | null,
   _version?: number | null,
 };
 
@@ -17,7 +18,21 @@ export type S3ObjectInput = {
   key: string,
 };
 
-export type DevelopersInput = {
+export type EmployeeInput = {
+  sub: string,
+  name: string,
+  email: string,
+  position: string,
+  permissions: string,
+};
+
+export type GroupEmployeeInput = {
+  groupName: string,
+  listEmployee?: Array< EmployeeOfGroupInput | null > | null,
+  permissions: string,
+};
+
+export type EmployeeOfGroupInput = {
   sub: string,
   name: string,
   email: string,
@@ -76,7 +91,8 @@ export type UpdateProjectInput = {
   title?: string | null,
   description?: string | null,
   image?: S3ObjectInput | null,
-  developers?: Array< DevelopersInput | null > | null,
+  listEmployeeWithoutGroup?: Array< EmployeeInput | null > | null,
+  listGroupEmployee?: Array< GroupEmployeeInput | null > | null,
   _version?: number | null,
 };
 
@@ -127,11 +143,24 @@ export type CreateProjectMutation = {
       region: string,
       key: string,
     } | null,
-    developers:  Array< {
-      __typename: "Developers",
+    listEmployeeWithoutGroup:  Array< {
+      __typename: "Employee",
       sub: string,
       name: string,
       email: string,
+      position: string,
+      permissions: string,
+    } | null > | null,
+    listGroupEmployee:  Array< {
+      __typename: "GroupEmployee",
+      groupName: string,
+      listEmployee:  Array< {
+        __typename: "EmployeeOfGroup",
+        sub: string,
+        name: string,
+        email: string,
+      } | null > | null,
+      permissions: string,
     } | null > | null,
     _version: number,
     _deleted: boolean | null,
@@ -156,11 +185,24 @@ export type UpdateProjectMutation = {
       region: string,
       key: string,
     } | null,
-    developers:  Array< {
-      __typename: "Developers",
+    listEmployeeWithoutGroup:  Array< {
+      __typename: "Employee",
       sub: string,
       name: string,
       email: string,
+      position: string,
+      permissions: string,
+    } | null > | null,
+    listGroupEmployee:  Array< {
+      __typename: "GroupEmployee",
+      groupName: string,
+      listEmployee:  Array< {
+        __typename: "EmployeeOfGroup",
+        sub: string,
+        name: string,
+        email: string,
+      } | null > | null,
+      permissions: string,
     } | null > | null,
     _version: number,
     _deleted: boolean | null,
@@ -185,11 +227,24 @@ export type DeleteProjectMutation = {
       region: string,
       key: string,
     } | null,
-    developers:  Array< {
-      __typename: "Developers",
+    listEmployeeWithoutGroup:  Array< {
+      __typename: "Employee",
       sub: string,
       name: string,
       email: string,
+      position: string,
+      permissions: string,
+    } | null > | null,
+    listGroupEmployee:  Array< {
+      __typename: "GroupEmployee",
+      groupName: string,
+      listEmployee:  Array< {
+        __typename: "EmployeeOfGroup",
+        sub: string,
+        name: string,
+        email: string,
+      } | null > | null,
+      permissions: string,
     } | null > | null,
     _version: number,
     _deleted: boolean | null,
@@ -218,11 +273,18 @@ export type SyncProjectsQuery = {
         region: string,
         key: string,
       } | null,
-      developers:  Array< {
-        __typename: "Developers",
+      listEmployeeWithoutGroup:  Array< {
+        __typename: "Employee",
         sub: string,
         name: string,
         email: string,
+        position: string,
+        permissions: string,
+      } | null > | null,
+      listGroupEmployee:  Array< {
+        __typename: "GroupEmployee",
+        groupName: string,
+        permissions: string,
       } | null > | null,
       _version: number,
       _deleted: boolean | null,
@@ -249,11 +311,24 @@ export type GetProjectQuery = {
       region: string,
       key: string,
     } | null,
-    developers:  Array< {
-      __typename: "Developers",
+    listEmployeeWithoutGroup:  Array< {
+      __typename: "Employee",
       sub: string,
       name: string,
       email: string,
+      position: string,
+      permissions: string,
+    } | null > | null,
+    listGroupEmployee:  Array< {
+      __typename: "GroupEmployee",
+      groupName: string,
+      listEmployee:  Array< {
+        __typename: "EmployeeOfGroup",
+        sub: string,
+        name: string,
+        email: string,
+      } | null > | null,
+      permissions: string,
     } | null > | null,
     _version: number,
     _deleted: boolean | null,
@@ -281,11 +356,18 @@ export type ListProjectsQuery = {
         region: string,
         key: string,
       } | null,
-      developers:  Array< {
-        __typename: "Developers",
+      listEmployeeWithoutGroup:  Array< {
+        __typename: "Employee",
         sub: string,
         name: string,
         email: string,
+        position: string,
+        permissions: string,
+      } | null > | null,
+      listGroupEmployee:  Array< {
+        __typename: "GroupEmployee",
+        groupName: string,
+        permissions: string,
       } | null > | null,
       _version: number,
       _deleted: boolean | null,
@@ -308,11 +390,24 @@ export type OnCreateProjectSubscription = {
       region: string,
       key: string,
     } | null,
-    developers:  Array< {
-      __typename: "Developers",
+    listEmployeeWithoutGroup:  Array< {
+      __typename: "Employee",
       sub: string,
       name: string,
       email: string,
+      position: string,
+      permissions: string,
+    } | null > | null,
+    listGroupEmployee:  Array< {
+      __typename: "GroupEmployee",
+      groupName: string,
+      listEmployee:  Array< {
+        __typename: "EmployeeOfGroup",
+        sub: string,
+        name: string,
+        email: string,
+      } | null > | null,
+      permissions: string,
     } | null > | null,
     _version: number,
     _deleted: boolean | null,
@@ -332,11 +427,24 @@ export type OnUpdateProjectSubscription = {
       region: string,
       key: string,
     } | null,
-    developers:  Array< {
-      __typename: "Developers",
+    listEmployeeWithoutGroup:  Array< {
+      __typename: "Employee",
       sub: string,
       name: string,
       email: string,
+      position: string,
+      permissions: string,
+    } | null > | null,
+    listGroupEmployee:  Array< {
+      __typename: "GroupEmployee",
+      groupName: string,
+      listEmployee:  Array< {
+        __typename: "EmployeeOfGroup",
+        sub: string,
+        name: string,
+        email: string,
+      } | null > | null,
+      permissions: string,
     } | null > | null,
     _version: number,
     _deleted: boolean | null,
@@ -356,11 +464,24 @@ export type OnDeleteProjectSubscription = {
       region: string,
       key: string,
     } | null,
-    developers:  Array< {
-      __typename: "Developers",
+    listEmployeeWithoutGroup:  Array< {
+      __typename: "Employee",
       sub: string,
       name: string,
       email: string,
+      position: string,
+      permissions: string,
+    } | null > | null,
+    listGroupEmployee:  Array< {
+      __typename: "GroupEmployee",
+      groupName: string,
+      listEmployee:  Array< {
+        __typename: "EmployeeOfGroup",
+        sub: string,
+        name: string,
+        email: string,
+      } | null > | null,
+      permissions: string,
     } | null > | null,
     _version: number,
     _deleted: boolean | null,

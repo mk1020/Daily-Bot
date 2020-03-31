@@ -113,14 +113,28 @@
                     "category": "auth",
                     "resourceName": "userPoolGroups",
                     "attributes": [
-                        "adminsGroupRole"
+                        "createUpdateDeleteReadGroupRole"
                     ]
                 },
                 {
                     "category": "auth",
                     "resourceName": "userPoolGroups",
                     "attributes": [
-                        "usersGroupRole"
+                        "createUpdateReadGroupRole"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "userPoolGroups",
+                    "attributes": [
+                        "deleteReadGroupRole"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "userPoolGroups",
+                    "attributes": [
+                        "readGroupRole"
                     ]
                 }
             ]

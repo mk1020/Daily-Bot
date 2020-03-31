@@ -51,8 +51,10 @@
         "email"
     ],
     "userPoolGroupList": [
-        "admins",
-        "users"
+        "createUpdateDeleteRead",
+        "createUpdateRead",
+        "deleteRead",
+        "read"
     ],
     "dependsOn": [
         {

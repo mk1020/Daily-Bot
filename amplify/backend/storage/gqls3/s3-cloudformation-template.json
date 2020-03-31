@@ -87,13 +87,21 @@
             "Type": "String",
             "Default": "authgraphqltsamplifycf8ed824UserPoolId"
         },
-        "authuserPoolGroupsadminsGroupRole": {
+        "authuserPoolGroupscreateUpdateDeleteReadGroupRole": {
             "Type": "String",
-            "Default": "authuserPoolGroupsadminsGroupRole"
+            "Default": "authuserPoolGroupscreateUpdateDeleteReadGroupRole"
         },
-        "authuserPoolGroupsusersGroupRole": {
+        "authuserPoolGroupscreateUpdateReadGroupRole": {
             "Type": "String",
-            "Default": "authuserPoolGroupsusersGroupRole"
+            "Default": "authuserPoolGroupscreateUpdateReadGroupRole"
+        },
+        "authuserPoolGroupsdeleteReadGroupRole": {
+            "Type": "String",
+            "Default": "authuserPoolGroupsdeleteReadGroupRole"
+        },
+        "authuserPoolGroupsreadGroupRole": {
+            "Type": "String",
+            "Default": "authuserPoolGroupsreadGroupRole"
         }
     },
     "Conditions": {
@@ -266,98 +274,6 @@
                             ],
                             "Id": "S3CORSRuleId1",
                             "MaxAge": "3000"
-                        }
-                    ]
-                }
-            }
-        },
-        "adminsGroupPolicy": {
-            "Type": "AWS::IAM::Policy",
-            "Properties": {
-                "PolicyName": "admins-group-s3-policy",
-                "Roles": [
-                    {
-                        "Fn::Join": [
-                            "",
-                            [
-                                {
-                                    "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
-                                },
-                                "-adminsGroupRole"
-                            ]
-                        ]
-                    }
-                ],
-                "PolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Action": [
-                                "s3:PutObject",
-                                "s3:GetObject",
-                                "s3:ListBucket",
-                                "s3:DeleteObject"
-                            ],
-                            "Resource": [
-                                {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "arn:aws:s3:::",
-                                            {
-                                                "Ref": "S3Bucket"
-                                            },
-                                            "/*"
-                                        ]
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            }
-        },
-        "usersGroupPolicy": {
-            "Type": "AWS::IAM::Policy",
-            "Properties": {
-                "PolicyName": "users-group-s3-policy",
-                "Roles": [
-                    {
-                        "Fn::Join": [
-                            "",
-                            [
-                                {
-                                    "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
-                                },
-                                "-usersGroupRole"
-                            ]
-                        ]
-                    }
-                ],
-                "PolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Action": [
-                                "s3:GetObject",
-                                "s3:ListBucket"
-                            ],
-                            "Resource": [
-                                {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "arn:aws:s3:::",
-                                            {
-                                                "Ref": "S3Bucket"
-                                            },
-                                            "/*"
-                                        ]
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }
@@ -784,6 +700,190 @@
                                     ]
                                 }
                             }
+                        }
+                    ]
+                }
+            }
+        },
+        "createUpdateDeleteReadGroupPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "createUpdateDeleteRead-group-s3-policy",
+                "Roles": [
+                    {
+                        "Fn::Join": [
+                            "",
+                            [
+                                {
+                                    "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
+                                },
+                                "-createUpdateDeleteReadGroupRole"
+                            ]
+                        ]
+                    }
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:PutObject",
+                                "s3:GetObject",
+                                "s3:ListBucket",
+                                "s3:DeleteObject"
+                            ],
+                            "Resource": [
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:aws:s3:::",
+                                            {
+                                                "Ref": "S3Bucket"
+                                            },
+                                            "/*"
+                                        ]
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "createUpdateReadGroupPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "createUpdateRead-group-s3-policy",
+                "Roles": [
+                    {
+                        "Fn::Join": [
+                            "",
+                            [
+                                {
+                                    "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
+                                },
+                                "-createUpdateReadGroupRole"
+                            ]
+                        ]
+                    }
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:PutObject",
+                                "s3:GetObject",
+                                "s3:ListBucket"
+                            ],
+                            "Resource": [
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:aws:s3:::",
+                                            {
+                                                "Ref": "S3Bucket"
+                                            },
+                                            "/*"
+                                        ]
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "deleteReadGroupPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "deleteRead-group-s3-policy",
+                "Roles": [
+                    {
+                        "Fn::Join": [
+                            "",
+                            [
+                                {
+                                    "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
+                                },
+                                "-deleteReadGroupRole"
+                            ]
+                        ]
+                    }
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:GetObject",
+                                "s3:ListBucket",
+                                "s3:DeleteObject"
+                            ],
+                            "Resource": [
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:aws:s3:::",
+                                            {
+                                                "Ref": "S3Bucket"
+                                            },
+                                            "/*"
+                                        ]
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "readGroupPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "read-group-s3-policy",
+                "Roles": [
+                    {
+                        "Fn::Join": [
+                            "",
+                            [
+                                {
+                                    "Ref": "authgraphqltsamplifycf8ed824UserPoolId"
+                                },
+                                "-readGroupRole"
+                            ]
+                        ]
+                    }
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:GetObject",
+                                "s3:ListBucket"
+                            ],
+                            "Resource": [
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:aws:s3:::",
+                                            {
+                                                "Ref": "S3Bucket"
+                                            },
+                                            "/*"
+                                        ]
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 }

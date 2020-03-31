@@ -1,10 +1,18 @@
 [
     {
-        "groupName": "admins",
+        "groupName": "createUpdateDeleteRead",
         "precedence": 1
     },
     {
-        "groupName": "users",
+        "groupName": "createUpdateRead",
         "precedence": 2
+    },
+    {
+        "groupName": "deleteRead",
+        "precedence": 3
+    },
+    {
+        "groupName": "read",
+        "precedence": 4
     }
 ]

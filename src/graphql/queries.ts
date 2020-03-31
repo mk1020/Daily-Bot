@@ -23,10 +23,16 @@ export const syncProjects = /* GraphQL */ `
           region
           key
         }
-        developers {
+        listEmployeeWithoutGroup {
           sub
           name
           email
+          position
+          permissions
+        }
+        listGroupEmployee {
+          groupName
+          permissions
         }
         _version
         _deleted
@@ -48,10 +54,21 @@ export const getProject = /* GraphQL */ `
         region
         key
       }
-      developers {
+      listEmployeeWithoutGroup {
         sub
         name
         email
+        position
+        permissions
+      }
+      listGroupEmployee {
+        groupName
+        listEmployee {
+          sub
+          name
+          email
+        }
+        permissions
       }
       _version
       _deleted
@@ -75,10 +92,16 @@ export const listProjects = /* GraphQL */ `
           region
           key
         }
-        developers {
+        listEmployeeWithoutGroup {
           sub
           name
           email
+          position
+          permissions
+        }
+        listGroupEmployee {
+          groupName
+          permissions
         }
         _version
         _deleted

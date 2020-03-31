@@ -208,7 +208,7 @@ const Dashboard = () => {
 							))}
 						</List>
 					</Collapse>
-					{cognitoGroup == 'admins' && (
+					{cognitoGroup == 'createUpdateDeleteRead' && (
 						<>
 							<Divider />
 							<ListItem button onClick={() => setNewProject(true)}>
@@ -237,7 +237,7 @@ const Dashboard = () => {
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.toolbar} />
-				{newProject && cognitoGroup == 'admins' && <AddProject />}
+				{newProject && cognitoGroup == 'createUpdateDeleteRead' && <AddProject />}
 			</main>
 		</div>
 	);
