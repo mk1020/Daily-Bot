@@ -26,7 +26,7 @@ const {
 } = awsconfig;
 const accessKeyId: string = 'AKIA4OWNERKG3GPEAFON';
 const secretAccessKey: string = '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';
-
+const userPoolId: string = 'eu-central-1_incRTtdVN';
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		newProject: {},
@@ -92,10 +92,31 @@ export const AddProject = () => {
 		name: string;
 		email: string;
 	}
+	type EmployeeWithoutGroup = {
+		sub: string | undefined;
+		name: string | undefined;
+		email: string | undefined;
+		position: string | undefined;
+		permissions: string | undefined;
+	};
+
 	type GroupEmployee = {
-		groupName: string;
-		listEmployee: Employee[];
-		permission: string;
+		groupName: string | undefined;
+		listEmployee: Employee[] | undefined;
+		permissions: string | undefined;
+	};
+	const initGroupEmployee = {
+		groupName: undefined,
+		listEmployee: undefined,
+		permissions: undefined,
+	}
+
+	const initEmployeeWithoutGroup = {
+		sub: undefined,
+		name: undefined,
+		email: undefined,
+		position: undefined,
+		permissions: undefined
 	};
 	const initEmployee = {
 		sub: null,
@@ -121,8 +142,10 @@ export const AddProject = () => {
 	const [groupName, changeGroupName] = useState<string>('');
 	const [selectedPermission, changeSelectedPermission] = useState<string>('');
 	const [employeePosition, changeEmployeePosition] = useState<string>('');
-	const [listGroup, changeListGroup] = useState<Array<GroupEmployee>>([]);
-	const [listEmployee, changeListEmployee] = useState<Array<Employee>>([]);
+	const [listGroup, changeListGroup] = useState<Array<GroupEmployee>>([initGroupEmployee]);
+	const [listEmployee, changeListEmployee] = useState<
+		Array<EmployeeWithoutGroup>
+	>([initEmployeeWithoutGroup]);
 
 	const getUsers = async () => {
 		try {
@@ -144,18 +167,22 @@ export const AddProject = () => {
 					params['PaginationToken'] = paginationToken;
 				}
 
-				await AWS.config.update({
-					region: 'eu-central-1',
+				AWS.config.update({
 					accessKeyId,
 					secretAccessKey,
+					region: 'eu-central-1',
 				});
 
 				const cognito = new AWS.CognitoIdentityServiceProvider();
 
 				const rawUsers = await cognito.listUsers(params).promise();
-
-				/* 
-				await cognito.adminRemoveUserFromGroup(addUserParams).promise(); */
+				/* const removeUserParams = {
+					GroupName: "read",
+					UserPoolId: userPoolId,
+					Username:"c93ed5d0-7e94-404e-abff-64cc1af3c2cd" ,
+				};
+				
+				await cognito.adminRemoveUserFromGroup(removeUserParams).promise(); */
 
 				allUsers = allUsers.concat(rawUsers.Users);
 				if (rawUsers.PaginationToken) {
@@ -174,33 +201,82 @@ export const AddProject = () => {
 		function wait(ms) {
 			return new Promise(resolve => setTimeout(resolve, ms));
 		}
-		AWS.config.update({
-			region: 'eu-central-1',
-			accessKeyId,
-			secretAccessKey,
-		});
-		const cognito = new AWS.CognitoIdentityServiceProvider();
-		
-		//allEmployee.push(...listEmployee.map((employee)=> employee.sub));
-		for (const group of listGroup) {
-			let groupName: string;
-			if (group.permission === 'create/update/delete/read') groupName='createUpdateDeleteRead';
-			if (group.permission === 'create/update/read') groupName='createUpdateRead';
-			if (group.permission === 'delete/read') groupName='deleteRead';
-			if (group.permission === 'read') groupName='read';
+		function groupName(permissions: string): string {
+			if (permissions === 'create/update/delete/read')
+				return 'createUpdateDeleteRead';
+			if (permissions === 'create/update/read') return 'createUpdateRead';
+			if (permissions === 'delete/read') return 'deleteRead';
+			if (permissions === 'read') return 'read';
+		}
+		try {
+			AWS.config.update({
+				accessKeyId,
+				secretAccessKey,
+				region: 'eu-central-1',
+			});
 
-			for (const employee of group.listEmployee) {
-				const addUserParams = {
-					GroupName: groupName,
-					UserPoolId: 'eu-central-1_incRTtdVN',
+			const cognito = new AWS.CognitoIdentityServiceProvider();
+			for (const group of listGroup) {
+				const name: string = groupName(group.permissions);
+
+				for (const employee of group.listEmployee) {
+					const listGroupsParams = {
+						UserPoolId: userPoolId,
+						Username: employee.sub,
+					};
+					const listGroupsForUser = await cognito
+						.adminListGroupsForUser(listGroupsParams)
+						.promise();
+					for (const group of listGroupsForUser.Groups) {
+						const removeUserParams = {
+							GroupName: group.GroupName,
+							UserPoolId: userPoolId,
+							Username: employee.sub,
+						};
+					if (group.GroupName !== 'createUpdateDeleteRead')	cognito.adminRemoveUserFromGroup(removeUserParams).promise();
+					}
+					await wait(105);
+					const addUserParams = {
+						GroupName: name,
+						UserPoolId: userPoolId,
+						Username: employee.sub,
+					};
+
+					cognito.adminAddUserToGroup(addUserParams).promise();
+					await wait(105);
+				}
+			}
+			for (const employee of listEmployee) {
+				const name: string = groupName(employee.permissions);
+				const listGroupsParams = {
+					UserPoolId: userPoolId,
 					Username: employee.sub,
 				};
-				
-				await cognito/* .adminListGroupsForUser */.adminAddUserToGroup(addUserParams).promise();
+				const listGroupsForUser = await cognito
+					.adminListGroupsForUser(listGroupsParams)
+					.promise();
+				for (const group of listGroupsForUser.Groups) {
+					const removeUserParams = {
+						GroupName: group.GroupName,
+						UserPoolId: userPoolId,
+						Username: employee.sub,
+					};
+					if (group.GroupName !== 'createUpdateDeleteRead')	cognito.adminRemoveUserFromGroup(removeUserParams).promise();
+				}
+				await wait(105);
+				const addUserParams = {
+					GroupName: name,
+					UserPoolId: userPoolId,
+					Username: employee.sub,
+				};
+
+				cognito.adminAddUserToGroup(addUserParams).promise();
 				await wait(105);
 			}
+			debugger;
+		} catch (e) {
+			debugger;
 		}
-		debugger
 	};
 	function onSelectImg(e) {
 		updateFile(e.target.files[0]);
@@ -220,6 +296,7 @@ export const AddProject = () => {
 	async function CreateProject() {
 		if (!projectName) return alert('please enter a username'); //TODO: сделать ошибки красивые
 		if (file && projectName && projectDescription) {
+			addUserToGroup();
 			const { name: fileName, type: mimeType } = file;
 			const key = `${uuid()}${fileName}`;
 			setFileKey(key);
@@ -232,8 +309,8 @@ export const AddProject = () => {
 				title: projectName,
 				description: projectDescription,
 				image: fileForUpload,
-				listEmployee: listEmployee,
-				listGroupEmployee: listGroup,
+				listEmployeeWithoutGroup: listEmployee ? listEmployee : initEmployeeWithoutGroup,
+				listGroupEmployee: listGroup ? listGroup : initGroupEmployee,
 			};
 
 			try {
@@ -377,7 +454,7 @@ export const AddProject = () => {
 								const group: GroupEmployee = {
 									groupName: groupName,
 									listEmployee: listSelectedEmployee,
-									permission: selectedPermission,
+									permissions: selectedPermission,
 								};
 								changeListGroup([...listGroup, group]);
 								setGroupAdded(true);
@@ -437,7 +514,6 @@ export const AddProject = () => {
 							 */
 
 							onChange={(event: object, value, reason: string) => {
-								debugger;
 								changeSelectedPermission(value);
 							}}
 						/>
@@ -446,7 +522,14 @@ export const AddProject = () => {
 							color="primary"
 							disableElevation
 							onClick={() => {
-								changeListEmployee([...listEmployee, employee]);
+								changeListEmployee([
+									...listEmployee,
+									{
+										...employee,
+										position: employeePosition,
+										permissions: selectedPermission,
+									},
+								]);
 								setEmployeeAdded(true);
 								doEventAddPeople(false);
 								doEventAddGroup(false);
@@ -497,8 +580,8 @@ export const AddProject = () => {
 					.catch(err => {
 						debugger;
 					}) */
-					/* CreateProject */
-					addUserToGroup
+					CreateProject
+					
 				}
 			>
 				Create project
