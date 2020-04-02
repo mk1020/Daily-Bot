@@ -15,10 +15,7 @@ import Collapse from '@material-ui/core/Collapse';
 import { Storage, API, graphqlOperation, Auth } from 'aws-amplify';
 import { connect } from 'react-redux';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
-import {
-	Avatar,
-
-} from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -26,7 +23,7 @@ import ReorderRoundedIcon from '@material-ui/icons/ReorderRounded';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import { deepOrange } from '@material-ui/core/colors';
 import { listProjects } from '../../graphql/queries';
-
+import Project from './Project/Project';
 import { AddProject } from './AddProject/AddProject';
 
 const drawerWidth = 230;
@@ -121,7 +118,7 @@ const Dashboard = () => {
 	const [newProject, setNewProject] = useState(false);
 	const [cognitoGroup, setCognitoGroup] = useState('');
 	const [titleAllProjects, setTitleAllProjects] = useState<Array<string>>(['']);
-
+	const [eventClickOnProject, setEventClickOnProject] = useState<string>('');
 	const history = useHistory();
 
 	const handleClick = () => {
@@ -148,7 +145,8 @@ const Dashboard = () => {
 				region: string;
 				key: string;
 			};
-			developers: Developer[];
+			listEmployeeWithoutGroup: any
+			listGroupEmployee: any
 		};
 		type GetProjectsQuery = {
 			data: {
@@ -199,7 +197,11 @@ const Dashboard = () => {
 					<Collapse in={open} timeout="auto" unmountOnExit>
 						<List component="div" disablePadding>
 							{titleAllProjects.map(el => (
-								<ListItem button className={classes.nested}>
+								<ListItem
+									button
+									className={classes.nested}
+									onClick={() => setEventClickOnProject(el)}
+								>
 									<ListItemIcon>
 										<PlayArrowRoundedIcon />
 									</ListItemIcon>
@@ -238,6 +240,7 @@ const Dashboard = () => {
 			<main className={classes.content}>
 				<div className={classes.toolbar} />
 				{newProject && cognitoGroup == 'createUpdateDeleteRead' && <AddProject />}
+				{eventClickOnProject && <Project title={eventClickOnProject}/>}
 			</main>
 		</div>
 	);

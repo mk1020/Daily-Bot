@@ -1,6 +1,6 @@
 projects:
   dailyApi:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/dailyApi/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:

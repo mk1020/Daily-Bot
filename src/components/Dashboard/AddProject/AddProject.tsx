@@ -87,42 +87,43 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const AddProject = () => {
-	interface Employee {
+	 interface Employee {
 		sub: string;
 		name: string;
 		email: string;
 	}
-	type EmployeeWithoutGroup = {
-		sub: string | undefined;
-		name: string | undefined;
-		email: string | undefined;
-		position: string | undefined;
-		permissions: string | undefined;
+	 type EmployeeWithoutGroup = {
+		sub: string 
+		name: string 
+		email: string 
+		position: string 
+		permissions: string
 	};
 
 	type GroupEmployee = {
-		groupName: string | undefined;
-		listEmployee: Employee[] | undefined;
-		permissions: string | undefined;
+		groupName: string
+		listEmployee: Employee[] 
+		permissions: string 
 	};
-	const initGroupEmployee = {
-		groupName: undefined,
-		listEmployee: undefined,
-		permissions: undefined,
-	}
+	
 
 	const initEmployeeWithoutGroup = {
-		sub: undefined,
-		name: undefined,
-		email: undefined,
-		position: undefined,
-		permissions: undefined
+		sub: "undefined",
+		name: "undefined",
+		email: "undefined",
+		position: "undefined",
+		permissions: "undefined"
 	};
 	const initEmployee = {
-		sub: null,
-		name: null,
-		email: null,
+		sub: "undefined",
+		name: "undefined",
+		email: "undefined",
 	};
+	const initGroupEmployee = {
+		groupName: "undefined",
+		listEmployee: [initEmployee],
+		permissions: "undefined",
+	}
 	const classes = useStyles();
 	const [file, updateFile] = useState(null);
 	const [projectName, setProjectName] = useState<string>('');
@@ -135,8 +136,7 @@ export const AddProject = () => {
 		Array<Employee>
 	>([initEmployee]);
 	const [employee, setEmployee] = useState<Employee>(initEmployee);
-	const [eventAddGroup, doEventAddGroup] = useState<boolean>(false);
-	const [groupAdded, setGroupAdded] = useState<boolean>(false);
+	
 	const [eventAddPeople, doEventAddPeople] = useState<boolean>(false);
 	const [employeeAdded, setEmployeeAdded] = useState<boolean>(false);
 	const [groupName, changeGroupName] = useState<string>('');
@@ -273,9 +273,7 @@ export const AddProject = () => {
 				cognito.adminAddUserToGroup(addUserParams).promise();
 				await wait(105);
 			}
-			debugger;
 		} catch (e) {
-			debugger;
 		}
 	};
 	function onSelectImg(e) {
@@ -394,78 +392,7 @@ export const AddProject = () => {
 						Add people
 					</Button>
 				</div>
-				{eventAddGroup && !groupAdded && (
-					<div className={classes.addGroup}>
-						<TextField
-							id="outlined-basic"
-							label="Group name"
-							variant="outlined"
-							value={groupName}
-							onChange={e => changeGroupName(e.target.value)}
-						/>
-						<Autocomplete
-							className={classes.addGroup_Autocomplete}
-							multiple
-							id="tags-standard"
-							options={usersList}
-							getOptionLabel={(option): string =>
-								`${option.Attributes[2].Value} (${option.Attributes[3].Value})`
-							}
-							defaultValue={[]}
-							renderInput={params => (
-								<TextField
-									{...params}
-									variant="outlined"
-									label="Select people"
-									placeholder="Next"
-								/>
-							)}
-							/* onInputChange={(event: object, value: string, reason: string) => {debugger}}
-							 */ onChange={(event: object, value, reason: string) => {
-								const listEmployee = value.map(el => ({
-									sub: el.Attributes[0].Value,
-									name: el.Attributes[2].Value,
-									email: el.Attributes[3].Value,
-								}));
-
-								changeListSelectedEmployee(listEmployee);
-							}}
-						/>
-						<Autocomplete
-							/* 						  className={classes.addGroup_Autocomplete}*/
-							id="tags-standard"
-							options={listPermissions}
-							getOptionLabel={(option): any => option}
-							renderInput={params => (
-								<TextField {...params} variant="outlined" label="Select permission" />
-							)}
-							/* onInputChange={(event: object, value: string, reason: string) => {debugger}}
-							 */
-
-							onChange={(event: object, value, reason: string) =>
-								changeSelectedPermission(value)
-							}
-						/>
-						<Button
-							variant="contained"
-							color="primary"
-							disableElevation
-							onClick={() => {
-								const group: GroupEmployee = {
-									groupName: groupName,
-									listEmployee: listSelectedEmployee,
-									permissions: selectedPermission,
-								};
-								changeListGroup([...listGroup, group]);
-								setGroupAdded(true);
-								doEventAddGroup(false);
-								doEventAddPeople(false);
-							}}
-						>
-							ADD
-						</Button>
-					</div>
-				)}
+				----{eventAddGroup && !groupAdded && }
 				{groupAdded && <span>Group successful added!</span>}
 				{eventAddPeople && !employeeAdded && (
 					<div className={classes.addPeople}>

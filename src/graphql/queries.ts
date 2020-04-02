@@ -101,6 +101,11 @@ export const listProjects = /* GraphQL */ `
         }
         listGroupEmployee {
           groupName
+          listEmployee {
+          sub
+          name
+          email
+        }
           permissions
         }
         _version

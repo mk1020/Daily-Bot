@@ -25,8 +25,8 @@ type S3Object {
 	key: String!
 }
 type Employee {
-	sub: String! | undefined
-	name: String! | undefined
+	sub: String! 
+	name: String!
 	email: String!
 	position: String!
 	permissions: String!
